@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'BINDR_VERSION', '1.0.0' );
-define( 'BINDR_DB_VERSION', '2' );
+define( 'BINDR_DB_VERSION', '3' );
 define( 'BINDR_PLUGIN_FILE', __FILE__ );
 define( 'BINDR_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BINDR_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -59,10 +59,7 @@ function bindr_plugin() {
 }
 
 /**
- * Get the PDF URL for a book.
- *
- * Cloud seam (v2): CDN delivery replaces this via the `bindr_pdf_url` filter —
- * the viewer never builds URLs itself.
+ * Get the PDF URL for a book. Filterable via `bindr_pdf_url` (e.g. CDN delivery).
  *
  * @param int $book_id Book post ID.
  * @return string PDF URL, empty string if none.

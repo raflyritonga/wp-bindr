@@ -1,7 +1,7 @@
 /**
  * Viewer styles.
  *
- * Theme isolation (§7): everything lives under .bindr-viewer, a scoped reset
+ * Theme isolation: everything lives under .bindr-viewer, a scoped reset
  * severs theme typography/button/link bleed, every class is bindr- prefixed,
  * and all theming goes through --bindr-* custom properties.
  */
@@ -10,9 +10,8 @@
 // Scoped reset. `all: revert` returns every property to the browser default,
 // undoing theme rules that would otherwise leak in.
 //
-// svg/path are excluded: SVG presentation attributes (d, viewBox geometry)
-// live in the author origin, so `all: revert` erases icon shapes in
-// Chromium (`d` is a CSS property there). See docs/DECISIONS.md.
+// svg/path are excluded: `all: revert` erases icon shapes in Chromium,
+// where `d` is a CSS property.
 // ---------------------------------------------------------------------------
 // :where() keeps the reset at zero specificity so every later .bindr-* rule
 // (and StPageFlip's own injected stylesheet) wins against it.
@@ -79,7 +78,7 @@
 }
 
 // Real and fake fullscreen: the stage fills the screen instead of keeping
-// the embed's ratio-derived height (which left a dead strip at the bottom).
+// the embed's ratio-derived height.
 .bindr-viewer--fs .bindr-stage,
 .bindr-viewer--fs-fake .bindr-stage {
 	flex: 1 1 auto;
@@ -205,8 +204,7 @@
 
 .bindr-book {
 	margin: 0 auto;
-	// Slides along with the page flip when the lone cover/back cover is
-	// re-centered (see FlipEngine.updateOffset).
+	// Smooths the lone-cover re-centering (FlipEngine.updateOffset).
 	transition: transform 0.7s ease;
 }
 

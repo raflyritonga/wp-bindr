@@ -1,5 +1,5 @@
 /**
- * Flipbook edit screen: Media Library PDF picker, client-side page count /
+ * Book edit screen: Media Library PDF picker, client-side page count /
  * page size probe via PDF.js (so the server never needs Imagick), live
  * preview of page 1, and the color picker for the background option.
  */

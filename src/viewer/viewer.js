@@ -1,5 +1,5 @@
 /**
- * The flipbook viewer: toolbar, stage, engine selection, keyboard access,
+ * The book viewer: toolbar, stage, engine selection, keyboard access,
  * fullscreen, zoom, and analytics wiring.
  */
 import { PdfStore } from './store';
@@ -491,9 +491,8 @@ export class Viewer {
 			} );
 		}
 
-		// Entering/leaving fullscreen may keep the same width (maximized
-		// window), so the width-based observer alone would skip the relayout
-		// the stage needs to switch between ratio height and fill height.
+		// Fullscreen can keep the same width, so the width-based observer
+		// alone would skip this relayout.
 		this.onFullscreenChange = () => {
 			this.root.classList.toggle(
 				'bindr-viewer--fs',

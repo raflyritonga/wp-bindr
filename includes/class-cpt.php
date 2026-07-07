@@ -1,6 +1,6 @@
 <?php
 /**
- * Flipbook custom post type, meta, and edit screen.
+ * Book custom post type, meta, and edit screen.
  *
  * @package Bindr
  */
@@ -31,7 +31,7 @@ class Bindr_CPT {
 	}
 
 	/**
-	 * Register the flipbook post type.
+	 * Register the book post type.
 	 */
 	public function register_post_type() {
 		register_post_type(
@@ -53,7 +53,7 @@ class Bindr_CPT {
 				),
 				'public'       => true,
 				'has_archive'  => false,
-				'show_in_rest' => true, // Needed for the block's flipbook picker (getEntityRecords).
+				'show_in_rest' => true, // Needed for the block's book picker (getEntityRecords).
 				'menu_icon'    => 'dashicons-book',
 				'supports'     => array( 'title', 'thumbnail' ),
 				'rewrite'      => array(
@@ -102,7 +102,7 @@ class Bindr_CPT {
 	}
 
 	/**
-	 * Use the classic edit screen for flipbooks — the metabox flow is simpler
+	 * Use the classic edit screen for books — the metabox flow is simpler
 	 * for the target audience than a block canvas with no content area.
 	 *
 	 * @param bool   $use_block_editor Whether to use the block editor.
@@ -253,7 +253,7 @@ class Bindr_CPT {
 	}
 
 	/**
-	 * "Use this flipbook" metabox: shortcode, block hint, permalink.
+	 * "Use this book" metabox: shortcode, block hint, permalink.
 	 *
 	 * @param WP_Post $post Current post.
 	 */
@@ -285,7 +285,7 @@ class Bindr_CPT {
 	}
 
 	/**
-	 * Save flipbook meta.
+	 * Save book meta.
 	 *
 	 * @param int     $post_id Post ID.
 	 * @param WP_Post $post    Post object.
@@ -331,7 +331,7 @@ class Bindr_CPT {
 		 * Filter per-book options before saving.
 		 *
 		 * @param array $options Sanitized options.
-		 * @param int   $post_id Flipbook post ID.
+		 * @param int   $post_id Book post ID.
 		 */
 		$options = apply_filters( 'bindr_save_options', $options, $post_id );
 		update_post_meta( $post_id, '_bindr_options', $options );
@@ -341,9 +341,9 @@ class Bindr_CPT {
 		}
 
 		/**
-		 * Fires after a flipbook is saved with valid data.
+		 * Fires after a book is saved with valid data.
 		 *
-		 * @param int     $post_id Flipbook post ID.
+		 * @param int     $post_id Book post ID.
 		 * @param int     $pdf_id  PDF attachment ID.
 		 * @param WP_Post $post    Post object.
 		 */
@@ -354,7 +354,7 @@ class Bindr_CPT {
 	 * Server-side cover generation from page 1, only if Imagick can read PDFs.
 	 * Skips silently otherwise — the viewer renders covers client-side.
 	 *
-	 * @param int $post_id Flipbook post ID.
+	 * @param int $post_id Book post ID.
 	 * @param int $pdf_id  PDF attachment ID.
 	 */
 	private function maybe_generate_cover( $post_id, $pdf_id ) {
@@ -366,14 +366,14 @@ class Bindr_CPT {
 		}
 
 		// The preview belongs to the PDF attachment itself; expose it as the
-		// flipbook cover by storing the attachment as featured image.
+		// book cover by storing the attachment as featured image.
 		set_post_thumbnail( $post_id, $pdf_id );
 	}
 
 	/**
 	 * Get merged per-book options (book meta over global defaults).
 	 *
-	 * @param int $post_id Flipbook post ID.
+	 * @param int $post_id Book post ID.
 	 * @return array
 	 */
 	public static function get_options( $post_id ) {
@@ -393,13 +393,13 @@ class Bindr_CPT {
 		 * Filter resolved per-book viewer options.
 		 *
 		 * @param array $options Options.
-		 * @param int   $post_id Flipbook post ID.
+		 * @param int   $post_id Book post ID.
 		 */
 		return apply_filters( 'bindr_book_options', $options, $post_id );
 	}
 
 	/**
-	 * Admin assets for the flipbook edit screen only.
+	 * Admin assets for the book edit screen only.
 	 *
 	 * @param string $hook_suffix Current admin page.
 	 */

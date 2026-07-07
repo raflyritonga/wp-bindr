@@ -1,5 +1,5 @@
 /**
- * Block editor UI: searchable flipbook picker + display options, with a
+ * Block editor UI: searchable book picker + display options, with a
  * static cover-and-frame placeholder in the canvas. The full viewer never
  * runs inside the editor.
  */

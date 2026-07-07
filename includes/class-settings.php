@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Settings → Flipbooks.
+ * Settings → Bindr.
  */
 class Bindr_Settings {
 

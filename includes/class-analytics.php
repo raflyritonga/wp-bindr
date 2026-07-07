@@ -96,29 +96,38 @@ class Bindr_Analytics {
 	}
 
 	/**
-	 * Run dbDelta again if the schema version changed on plugin update.
+	 * Run the install/upgrade routine if the schema version changed.
 	 */
 	public function maybe_upgrade_db() {
-		$installed = (string) get_option( 'bindr_db_version' );
-		if ( $installed === BINDR_DB_VERSION ) {
-			return;
+		if ( (string) get_option( 'bindr_db_version' ) !== BINDR_DB_VERSION ) {
+			self::install_or_upgrade();
 		}
+	}
 
-		// Schema v1 (pre-release) used a flipbook_id column, which dbDelta
-		// cannot rename (nor change the daily table's primary key). No public
-		// release ever shipped v1, so drop and recreate instead of migrating.
-		if ( '1' === $installed ) {
-			global $wpdb;
-			$wpdb->query( 'DROP TABLE IF EXISTS ' . self::events_table() ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
-			$wpdb->query( 'DROP TABLE IF EXISTS ' . self::daily_table() ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+	/**
+	 * Create or migrate the tables and stamp the schema version. Shared by
+	 * plugin activation and version-change upgrades.
+	 */
+	public static function install_or_upgrade() {
+		global $wpdb;
+		$events = self::events_table();
+
+		// The old dev schema used a flipbook_id column, which dbDelta cannot
+		// rename; rebuild the tables when it is present.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$table_exists = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $events ) );
+		if ( $table_exists && $wpdb->get_var( "SHOW COLUMNS FROM {$events} LIKE 'flipbook_id'" ) ) {
+			$wpdb->query( 'DROP TABLE IF EXISTS ' . self::events_table() );
+			$wpdb->query( 'DROP TABLE IF EXISTS ' . self::daily_table() );
 		}
+		// phpcs:enable
 
 		self::create_tables();
 		update_option( 'bindr_db_version', BINDR_DB_VERSION );
 	}
 
 	/**
-	 * REST routes. Versioned namespace (v1) — v2 seam for a future aggregator.
+	 * REST routes.
 	 */
 	public function register_routes() {
 		register_rest_route(

@@ -75,8 +75,7 @@ class Bindr_Plugin {
 	 * Activation: create tables, register CPT, flush rewrites, schedule cron.
 	 */
 	public static function activate() {
-		Bindr_Analytics::create_tables();
-		update_option( 'bindr_db_version', BINDR_DB_VERSION );
+		Bindr_Analytics::install_or_upgrade();
 
 		// CPT must exist before flushing so its rewrite rules are included.
 		$cpt = new Bindr_CPT();

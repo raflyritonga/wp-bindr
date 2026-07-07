@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Flipbooks → Analytics screen.
+ * Bindr → Analytics screen.
  */
 class Bindr_Dashboard {
 
@@ -41,7 +41,7 @@ class Bindr_Dashboard {
 	}
 
 	/**
-	 * Flipbooks → Analytics (admins only).
+	 * Bindr → Analytics (admins only).
 	 */
 	public function add_page() {
 		add_submenu_page(
@@ -232,7 +232,7 @@ class Bindr_Dashboard {
 	}
 
 	/**
-	 * Read-only stats box on the flipbook edit screen (editors can see it).
+	 * Read-only stats box on the book edit screen (editors can see it).
 	 */
 	public function add_stats_box() {
 		add_meta_box(

@@ -24,7 +24,7 @@ class Bindr_Viewer {
 
 	/**
 	 * Register (not enqueue) front-end assets. They are enqueued only when a
-	 * flipbook actually renders, so pages without flipbooks load zero bytes.
+	 * book actually renders, so pages without books load zero bytes.
 	 */
 	public function register_assets() {
 		self::register_pdfjs();
@@ -93,18 +93,18 @@ class Bindr_Viewer {
 	}
 
 	/**
-	 * Render a flipbook viewer container.
+	 * Render a book viewer container.
 	 *
 	 * @param array $args {
 	 *     Render arguments.
 	 *
-	 *     @type int    $id          Flipbook post ID (required).
+	 *     @type int    $id          Book post ID (required).
 	 *     @type string $height_mode 'ratio' (responsive) or 'fixed'.
 	 *     @type int    $height      Fixed height in px (height_mode=fixed).
 	 *     @type string $display     '', 'single', or 'double' ('' = book setting).
 	 *     @type bool   $fullpage    Whether rendering inside full-page mode.
 	 * }
-	 * @return string HTML, empty string when the flipbook is unavailable.
+	 * @return string HTML, empty string when the book is unavailable.
 	 */
 	public function render( $args ) {
 		$args = wp_parse_args(
@@ -159,11 +159,8 @@ class Bindr_Viewer {
 			'title'      => get_the_title( $post ),
 			'workerSrc'  => self::pdfjs_worker_url(),
 			'analytics'  => array(
-				// _wpnonce keeps REST cookie auth intact for logged-in
-				// readers: without it WordPress demotes the request to
-				// anonymous, and the bindr_event nonce (minted for the
-				// logged-in user) would never verify — silently dropping
-				// every event during logged-in testing.
+				// _wpnonce keeps REST cookie auth intact for logged-in readers;
+				// without it the bindr_event nonce never verifies for them.
 				'endpoint' => esc_url_raw( add_query_arg( '_wpnonce', wp_create_nonce( 'wp_rest' ), rest_url( 'bindr/v1/event' ) ) ),
 				'nonce'    => wp_create_nonce( 'bindr_event' ),
 			),
@@ -174,7 +171,7 @@ class Bindr_Viewer {
 		 * Filter the viewer config JSON before output.
 		 *
 		 * @param array   $config Viewer config.
-		 * @param WP_Post $post   Flipbook post.
+		 * @param WP_Post $post   Book post.
 		 * @param array   $args   Render args.
 		 */
 		$config = apply_filters( 'bindr_viewer_config', $config, $post, $args );
@@ -204,7 +201,7 @@ class Bindr_Viewer {
 				<noscript>
 					<a href="<?php echo esc_url( $pdf_url ); ?>">
 						<?php
-						/* translators: %s: flipbook title. */
+						/* translators: %s: book title. */
 						echo esc_html( sprintf( __( 'Read “%s” (PDF)', 'wp-bindr' ), get_the_title( $post ) ) );
 						?>
 					</a>
@@ -218,7 +215,7 @@ class Bindr_Viewer {
 		 * Filter the rendered viewer HTML.
 		 *
 		 * @param string  $html Rendered markup.
-		 * @param WP_Post $post Flipbook post.
+		 * @param WP_Post $post Book post.
 		 * @param array   $args Render args.
 		 */
 		return apply_filters( 'bindr_viewer_html', $html, $post, $args );

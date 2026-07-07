@@ -91,9 +91,8 @@ export class FlipEngine {
 	}
 
 	/**
-	 * Center a lone cover page. StPageFlip parks the cover on the right half
-	 * of the spread (and a lone back cover on the left half), leaving the
-	 * other half empty; shift the book by half a page to compensate.
+	 * Center a lone cover: StPageFlip parks it on the right half of the
+	 * spread (back cover on the left), so shift the book by half a page.
 	 */
 	updateOffset() {
 		const total = this.store.pageCount;

@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Serves flipbook permalinks with the plugin's own blank-canvas template.
+ * Serves book permalinks with the plugin's own blank-canvas template.
  */
 class Bindr_Fullpage {
 
@@ -39,7 +39,7 @@ class Bindr_Fullpage {
 	}
 
 	/**
-	 * Whether the current main query is a flipbook permalink.
+	 * Whether the current main query is a book permalink.
 	 *
 	 * @return bool
 	 */
@@ -48,8 +48,7 @@ class Bindr_Fullpage {
 	}
 
 	/**
-	 * Swap in our blank-canvas template. Never uses the theme's templates —
-	 * this is the core of the theme-compatibility strategy (§7).
+	 * Swap in our blank-canvas template; the theme's templates are never used.
 	 *
 	 * @param string $template Template path chosen by WP.
 	 * @return string
@@ -67,7 +66,7 @@ class Bindr_Fullpage {
 	}
 
 	/**
-	 * Basic SEO/OG meta for shared flipbook URLs.
+	 * Basic SEO/OG meta for shared book URLs.
 	 */
 	public function seo_meta() {
 		if ( ! $this->is_fullpage() ) {
@@ -89,7 +88,7 @@ class Bindr_Fullpage {
 	/**
 	 * Render the viewer for the template.
 	 *
-	 * @param int $post_id Flipbook post ID.
+	 * @param int $post_id Book post ID.
 	 * @return string
 	 */
 	public function render_viewer( $post_id ) {

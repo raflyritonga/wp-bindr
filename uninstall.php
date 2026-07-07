@@ -1,7 +1,7 @@
 <?php
 /**
  * Uninstall handler. Respects the "delete data on uninstall" setting —
- * by default all flipbooks, settings, and analytics are kept.
+ * by default all books, settings, and analytics are kept.
  *
  * @package Bindr
  */
@@ -21,7 +21,7 @@ global $wpdb;
 $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}bindr_events" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}bindr_daily" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
-// Flipbook posts and their meta.
+// Book posts and their meta.
 $bindr_ids = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 	$wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_type = %s", 'bindr_book' )
 );
