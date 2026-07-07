@@ -113,7 +113,7 @@ class Bindr_Analytics {
 		// real migrations after the first public release.
 		if ( (string) get_option( 'bindr_db_version' ) !== BINDR_DB_VERSION ) {
 			global $wpdb;
-			// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.NotPrepared -- Table names come from $wpdb->prefix.
 			$wpdb->query( 'DROP TABLE IF EXISTS ' . self::events_table() );
 			$wpdb->query( 'DROP TABLE IF EXISTS ' . self::daily_table() );
 			// phpcs:enable

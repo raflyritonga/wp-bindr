@@ -102,9 +102,7 @@ export class FlipEngine {
 		} else if ( this.current === total && 0 === total % 2 ) {
 			shift = 25;
 		}
-		this.book.style.transform = shift
-			? `translateX(${ shift }%)`
-			: '';
+		this.book.style.transform = shift ? `translateX(${ shift }%)` : '';
 	}
 
 	/**
