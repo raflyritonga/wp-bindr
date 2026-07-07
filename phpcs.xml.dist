@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<ruleset name="Bindr">
+	<description>WordPress Coding Standards for Bindr.</description>
+
+	<file>wp-bindr.php</file>
+	<file>uninstall.php</file>
+	<file>includes</file>
+	<file>templates</file>
+
+	<arg value="sp"/>
+	<arg name="extensions" value="php"/>
+	<arg name="parallel" value="8"/>
+
+	<config name="minimum_wp_version" value="6.0"/>
+	<config name="testVersion" value="7.4-"/>
+
+	<rule ref="WordPress">
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+	</rule>
+	<rule ref="PHPCompatibilityWP"/>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="wp-bindr"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="bindr"/>
+				<element value="Bindr"/>
+				<element value="BINDR"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>

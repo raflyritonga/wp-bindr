@@ -1,0 +1,65 @@
+.bindr-cards {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin: 16px 0;
+}
+
+.bindr-card {
+	display: flex;
+	flex-direction: column;
+	min-width: 160px;
+	padding: 16px;
+	background: #ffffff;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+}
+
+.bindr-card__num {
+	font-size: 28px;
+	font-weight: 600;
+	line-height: 1.2;
+}
+
+.bindr-card__label {
+	color: #646970;
+}
+
+.bindr-chart-wrap {
+	max-width: 900px;
+	padding: 16px;
+	margin-bottom: 16px;
+	background: #ffffff;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	overflow-x: auto;
+}
+
+.bindr-chart {
+	width: 100%;
+	height: auto;
+}
+
+.bindr-chart__grid {
+	stroke: #eeeeee;
+	stroke-width: 1;
+}
+
+.bindr-chart__bar {
+	fill: #2271b1;
+}
+
+.bindr-chart__label {
+	fill: #646970;
+	font-size: 11px;
+}
+
+.bindr-books-table {
+	max-width: 900px;
+}
+
+.bindr-dashboard__range {
+	display: flex;
+	gap: 6px;
+	align-items: center;
+}

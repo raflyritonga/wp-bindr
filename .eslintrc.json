@@ -1,0 +1,30 @@
+{
+	"extends": [ "plugin:@wordpress/eslint-plugin/recommended" ],
+	"env": {
+		"browser": true
+	},
+	"settings": {
+		"jsdoc": {
+			"preferredTypes": {
+				"PdfStore": "object"
+			}
+		}
+	},
+	"rules": {
+		"jsdoc/no-undefined-types": [
+			"error",
+			{ "definedTypes": [ "PdfStore", "WP_Post" ] }
+		]
+	},
+	"overrides": [
+		{
+			"files": [ "tools/**/*.js" ],
+			"env": {
+				"node": true
+			},
+			"rules": {
+				"no-console": "off"
+			}
+		}
+	]
+}

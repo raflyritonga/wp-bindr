@@ -1,0 +1,366 @@
+# Indonesian translation for Bindr.
+# Copyright (C) 2026 Bindr Contributors
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Bindr 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-bindr\n"
+"POT-Creation-Date: 2026-07-07 00:00+00:00\n"
+"PO-Revision-Date: 2026-07-07 00:00+0700\n"
+"Last-Translator: Bindr Contributors\n"
+"Language-Team: Indonesian\n"
+"Language: id_ID\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: wp-bindr\n"
+
+msgid "%s page"
+msgid_plural "%s pages"
+msgstr[0] "%s halaman"
+
+msgid "%s pages"
+msgstr "%s halaman"
+
+msgid "3:4 portrait"
+msgstr "Potret 3:4"
+
+msgid "A4 landscape"
+msgstr "A4 lanskap"
+
+msgid "A4 portrait"
+msgstr "A4 potret"
+
+msgid "Add New"
+msgstr "Tambah Baru"
+
+msgid "Add New Flipbook"
+msgstr "Tambah Flipbook Baru"
+
+msgid "Add the “Flipbook” block and pick this book from the list."
+msgstr "Tambahkan blok “Flipbook” lalu pilih buku ini dari daftar."
+
+msgid "All Flipbooks"
+msgstr "Semua Flipbook"
+
+msgid "Allow PDF download by default (can be changed per flipbook)"
+msgstr "Izinkan unduhan PDF secara bawaan (dapat diubah untuk setiap flipbook)"
+
+msgid "Analytics"
+msgstr "Analitik"
+
+msgid "Analytics & Data"
+msgstr "Analitik & Data"
+
+msgid "Analytics are stored only in your own database. No cookies are set and no personal data is kept — visitors are counted with a salted hash that changes every day."
+msgstr "Data analitik disimpan hanya di basis data Anda sendiri. Tidak ada cookie yang dipasang dan tidak ada data pribadi yang disimpan — pembaca dihitung menggunakan hash tersamar yang berganti setiap hari."
+
+msgid "Aspect ratio"
+msgstr "Rasio aspek"
+
+msgid "Automatic (from PDF)"
+msgstr "Otomatis (dari PDF)"
+
+msgid "Avg. furthest page"
+msgstr "Rata-rata halaman terjauh"
+
+msgid "Back"
+msgstr "Kembali"
+
+msgid "Back button fallback URL"
+msgstr "URL cadangan tombol kembali"
+
+msgid "Background color"
+msgstr "Warna latar belakang"
+
+msgid "Block editor"
+msgstr "Editor blok"
+
+msgid "Book setting"
+msgstr "Sesuai pengaturan buku"
+
+msgid "book"
+msgstr "buku"
+
+msgid "Choose a flipbook"
+msgstr "Pilih flipbook"
+
+msgid "Choose a flipbook in the block settings sidebar. Create flipbooks under Flipbooks in the admin menu."
+msgstr "Pilih flipbook pada bilah pengaturan blok. Buat flipbook melalui menu Flipbook di dasbor admin."
+
+msgid "Completed reads: %s"
+msgstr "Dibaca sampai selesai: %s"
+
+msgid "Completion rate"
+msgstr "Tingkat penyelesaian"
+
+msgid "Completions"
+msgstr "Selesai dibaca"
+
+msgid "Could not read this PDF. The file may be corrupted or protected."
+msgstr "PDF ini tidak dapat dibaca. Berkas mungkin rusak atau terlindungi."
+
+msgid "Day"
+msgstr "Tanggal"
+
+msgid "days"
+msgstr "hari"
+
+msgid "Default background color"
+msgstr "Warna latar belakang bawaan"
+
+msgid "Default page display"
+msgstr "Tampilan halaman bawaan"
+
+msgid "Delete all flipbooks, settings, and analytics data when the plugin is uninstalled"
+msgstr "Hapus semua flipbook, pengaturan, dan data analitik saat plugin dicopot"
+
+msgid "Double page"
+msgstr "Halaman ganda"
+
+msgid "Double page (book spread)"
+msgstr "Halaman ganda (bentangan buku)"
+
+msgid "Download"
+msgstr "Unduhan"
+
+msgid "Download PDF"
+msgstr "Unduh PDF"
+
+msgid "Downloads"
+msgstr "Unduhan"
+
+msgid "Edit Flipbook"
+msgstr "Sunting Flipbook"
+
+msgid "Embed an interactive flipbook created from a PDF."
+msgstr "Sematkan flipbook interaktif yang dibuat dari PDF."
+
+msgid "Empty event batch."
+msgstr "Kumpulan peristiwa kosong."
+
+msgid "Export CSV"
+msgstr "Ekspor CSV"
+
+msgid "Fixed height"
+msgstr "Tinggi tetap"
+
+msgid "Flipbook"
+msgstr "Flipbook"
+
+msgid "flipbook"
+msgstr "flipbook"
+
+msgid "Flipbook Analytics"
+msgstr "Analitik Flipbook"
+
+msgid "Flipbook Settings"
+msgstr "Pengaturan Flipbook"
+
+msgid "Flipbooks"
+msgstr "Flipbook"
+
+msgid "Full-page reading mode"
+msgstr "Mode baca layar penuh"
+
+msgid "Full-Page Reading Mode"
+msgstr "Mode Baca Layar Penuh"
+
+msgid "Go to page"
+msgstr "Menuju halaman"
+
+msgid "Height"
+msgstr "Tinggi"
+
+msgid "Height (pixels)"
+msgstr "Tinggi (piksel)"
+
+msgid "Height-to-width ratio of a single page. Automatic reads it from the PDF itself."
+msgstr "Perbandingan tinggi terhadap lebar satu halaman. Pilihan otomatis membacanya langsung dari PDF."
+
+msgid "Interactive flipbook — preview it on the front end."
+msgstr "Flipbook interaktif — pratinjau tersedia di halaman depan situs."
+
+msgid "Invalid or expired analytics token."
+msgstr "Token analitik tidak valid atau sudah kedaluwarsa."
+
+msgid "Last %s days"
+msgstr "%s hari terakhir"
+
+msgid "Loading flipbook…"
+msgstr "Memuat flipbook…"
+
+msgid "Loading…"
+msgstr "Memuat…"
+
+msgid "magazine"
+msgstr "majalah"
+
+msgid "New Flipbook"
+msgstr "Flipbook Baru"
+
+msgid "Next page"
+msgstr "Halaman berikutnya"
+
+msgid "No flipbooks found in Trash."
+msgstr "Tidak ada flipbook di Tong Sampah."
+
+msgid "No flipbooks found."
+msgstr "Tidak ada flipbook yang ditemukan."
+
+msgid "No reading activity in this period yet."
+msgstr "Belum ada aktivitas membaca pada periode ini."
+
+msgid "On small screens the viewer always uses single-page mode."
+msgstr "Pada layar kecil, penampil selalu menggunakan mode halaman tunggal."
+
+msgid "Open the full analytics dashboard"
+msgstr "Buka dasbor analitik lengkap"
+
+msgid "Open the PDF instead"
+msgstr "Buka berkas PDF saja"
+
+msgid "Optional logo shown in the top bar of full-page reading mode."
+msgstr "Logo opsional yang ditampilkan pada bilah atas mode baca layar penuh."
+
+msgid "Page %1$s of %2$s"
+msgstr "Halaman %1$s dari %2$s"
+
+msgid "Page display"
+msgstr "Tampilan halaman"
+
+msgid "Pages"
+msgstr "Halaman"
+
+msgid "Paste this into any post, page, or page builder text widget."
+msgstr "Tempelkan ke pos, laman, atau widget teks page builder mana pun."
+
+msgid "pdf"
+msgstr "pdf"
+
+msgid "PDF Document"
+msgstr "Dokumen PDF"
+
+msgid "Per flipbook"
+msgstr "Per flipbook"
+
+msgid "Previous page"
+msgstr "Halaman sebelumnya"
+
+msgid "Raw event retention"
+msgstr "Retensi data peristiwa mentah"
+
+msgid "Raw reading events older than this are deleted automatically. Daily summaries are kept forever and power the dashboard."
+msgstr "Data baca mentah yang lebih lama dari batas ini dihapus secara otomatis. Ringkasan harian disimpan selamanya dan menjadi dasar laporan pada dasbor."
+
+msgid "Read “%s” (PDF)"
+msgstr "Baca “%s” (PDF)"
+
+msgid "Reading Statistics (30 days)"
+msgstr "Statistik Pembaca (30 hari)"
+
+msgid "Reads"
+msgstr "Pembacaan"
+
+msgid "Reads per day"
+msgstr "Pembacaan per hari"
+
+msgid "Reads: %s"
+msgstr "Dibaca: %s kali"
+
+msgid "Remove"
+msgstr "Hapus"
+
+msgid "Remove PDF"
+msgstr "Hapus PDF"
+
+msgid "Responsive (from page ratio)"
+msgstr "Responsif (mengikuti rasio halaman)"
+
+msgid "Save the flipbook first to get its shortcode and link."
+msgstr "Simpan flipbook terlebih dahulu untuk mendapatkan shortcode dan tautannya."
+
+msgid "Search Flipbooks"
+msgstr "Cari Flipbook"
+
+msgid "Select a PDF"
+msgstr "Pilih PDF"
+
+msgid "Select logo"
+msgstr "Pilih logo"
+
+msgid "Select PDF from Media Library"
+msgstr "Pilih PDF dari Pustaka Media"
+
+msgid "Shortcode"
+msgstr "Shortcode"
+
+msgid "Show a download button for the original PDF"
+msgstr "Tampilkan tombol unduh untuk PDF asli"
+
+msgid "Single page"
+msgstr "Halaman tunggal"
+
+msgid "Statistics appear once the flipbook is published."
+msgstr "Statistik muncul setelah flipbook diterbitkan."
+
+msgid "The flipbook could not be loaded."
+msgstr "Flipbook tidak dapat dimuat."
+
+msgid "This flipbook has no PDF attached yet. Edit the flipbook and select one."
+msgstr "Flipbook ini belum memiliki PDF. Sunting flipbook lalu pilih berkas PDF."
+
+msgid "Toggle fullscreen"
+msgstr "Alihkan layar penuh"
+
+msgid "Toggle single or double page"
+msgstr "Alihkan halaman tunggal atau ganda"
+
+msgid "Too many events."
+msgstr "Terlalu banyak peristiwa."
+
+msgid "Top bar logo"
+msgstr "Logo bilah atas"
+
+msgid "Uninstall"
+msgstr "Pencopotan"
+
+msgid "Unique readers"
+msgstr "Pembaca unik"
+
+msgid "Unique readers (daily)"
+msgstr "Pembaca unik (harian)"
+
+msgid "Unique readers: %s"
+msgstr "Pembaca unik: %s"
+
+msgid "Upload the PDF to your Media Library first, then select it here. The page count and preview are generated automatically."
+msgstr "Unggah PDF ke Pustaka Media terlebih dahulu, lalu pilih di sini. Jumlah halaman dan pratinjau dibuat secara otomatis."
+
+msgid "Use This Flipbook"
+msgstr "Gunakan Flipbook Ini"
+
+msgid "Use this PDF"
+msgstr "Gunakan PDF ini"
+
+msgid "View Flipbook"
+msgstr "Lihat Flipbook"
+
+msgid "Viewer Defaults"
+msgstr "Bawaan Penampil"
+
+msgid "Viewer Options"
+msgstr "Opsi Penampil"
+
+msgid "Where the back button goes when a reader opens a flipbook directly (for example from a shared link). Defaults to the homepage."
+msgstr "Tujuan tombol kembali saat pembaca membuka flipbook secara langsung (misalnya dari tautan yang dibagikan). Bawaan: beranda situs."
+
+msgid "You are not allowed to export analytics."
+msgstr "Anda tidak diizinkan mengekspor data analitik."
+
+msgid "Zoom in"
+msgstr "Perbesar"
+
+msgid "Zoom out"
+msgstr "Perkecil"

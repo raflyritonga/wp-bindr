@@ -1,0 +1,34 @@
+{
+	"name": "wp-bindr",
+	"version": "1.0.0",
+	"description": "Turn Media Library PDFs into interactive flipbooks. Self-hosted, privacy-friendly, no external services.",
+	"private": true,
+	"license": "GPL-2.0-or-later",
+	"scripts": {
+		"build": "wp-scripts build && node tools/copy-vendor.js && node tools/make-pot.js && node tools/compile-lang.js",
+		"start": "wp-scripts start",
+		"lint:js": "wp-scripts lint-js src tools",
+		"vendor": "node tools/copy-vendor.js",
+		"lang": "node tools/compile-lang.js",
+		"plugin-zip": "wp-scripts plugin-zip"
+	},
+	"dependencies": {
+		"page-flip": "2.0.7",
+		"pdfjs-dist": "3.11.174"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^27.9.0"
+	},
+	"files": [
+		"wp-bindr.php",
+		"uninstall.php",
+		"includes/**",
+		"templates/**",
+		"build/**",
+		"languages/**",
+		"assets/**",
+		"readme.txt",
+		"LICENSE",
+		"LIBRARIES.md"
+	]
+}

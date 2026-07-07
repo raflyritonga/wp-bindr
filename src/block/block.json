@@ -1,0 +1,35 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "bindr/flipbook",
+	"title": "Flipbook",
+	"category": "media",
+	"icon": "book",
+	"description": "Embed an interactive flipbook created from a PDF.",
+	"keywords": [ "pdf", "book", "flipbook", "magazine" ],
+	"textdomain": "wp-bindr",
+	"attributes": {
+		"flipbookId": {
+			"type": "number",
+			"default": 0
+		},
+		"heightMode": {
+			"type": "string",
+			"default": "ratio"
+		},
+		"height": {
+			"type": "number",
+			"default": 600
+		},
+		"display": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"align": [ "wide", "full" ],
+		"html": false
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css"
+}

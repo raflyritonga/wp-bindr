@@ -1,0 +1,450 @@
+/**
+ * Viewer styles.
+ *
+ * Theme isolation (§7): everything lives under .bindr-viewer, a scoped reset
+ * severs theme typography/button/link bleed, every class is bindr- prefixed,
+ * and all theming goes through --bindr-* custom properties.
+ */
+
+// ---------------------------------------------------------------------------
+// Scoped reset. `all: revert` returns every property to the browser default,
+// undoing theme rules that would otherwise leak in.
+//
+// svg/path are excluded: SVG presentation attributes (d, viewBox geometry)
+// live in the author origin, so `all: revert` erases icon shapes in
+// Chromium (`d` is a CSS property there). See docs/DECISIONS.md.
+// ---------------------------------------------------------------------------
+// :where() keeps the reset at zero specificity so every later .bindr-* rule
+// (and StPageFlip's own injected stylesheet) wins against it.
+.bindr-viewer,
+.bindr-viewer :where( *:not( svg ):not( path ) ) {
+	all: revert;
+	box-sizing: border-box;
+}
+
+.bindr-viewer {
+	// Theming surface: override these instead of fighting specificity.
+	--bindr-bg: #404040;
+	--bindr-fg: #ffffff;
+	--bindr-accent: #2271b1;
+	--bindr-toolbar-bg: rgba( 0, 0, 0, 0.75 );
+	--bindr-toolbar-fg: #ffffff;
+
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: 100%;
+	overflow: hidden;
+	background: var( --bindr-bg );
+	border-radius: 4px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		Oxygen-Sans, Ubuntu, sans-serif;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var( --bindr-fg );
+
+	&:focus-visible {
+		outline: 2px solid var( --bindr-accent );
+		outline-offset: 2px;
+	}
+}
+
+.bindr-viewer--fixed {
+	// Height set inline by the render callback.
+	.bindr-stage {
+		flex: 1 1 auto;
+		min-height: 0;
+	}
+}
+
+.bindr-viewer--fullpage {
+	flex: 1 1 auto;
+	height: 100%;
+	border-radius: 0;
+
+	.bindr-stage {
+		flex: 1 1 auto;
+		min-height: 0;
+	}
+}
+
+// Fake fullscreen for browsers without the Fullscreen API (iPhone Safari).
+.bindr-viewer--fs-fake {
+	position: fixed !important; // Must beat any theme positioning context.
+	inset: 0;
+	z-index: 99999;
+	height: 100% !important;
+	border-radius: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Placeholder (pre-boot / no-JS)
+// ---------------------------------------------------------------------------
+.bindr-viewer__placeholder {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 200px;
+	padding: 24px;
+}
+
+.bindr-viewer__cover {
+	max-width: 60%;
+	max-height: 320px;
+	height: auto;
+	box-shadow: 0 4px 20px rgba( 0, 0, 0, 0.4 );
+}
+
+.bindr-viewer-notice {
+	padding: 12px;
+	border: 1px dashed #999999;
+}
+
+// ---------------------------------------------------------------------------
+// Stage & zoom
+// ---------------------------------------------------------------------------
+.bindr-stage {
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+	touch-action: pan-y;
+}
+
+.bindr-stage--zoomed {
+	overflow: auto;
+	touch-action: auto;
+}
+
+.bindr-zoom {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transform-origin: top center;
+}
+
+// ---------------------------------------------------------------------------
+// StPageFlip structural rules, re-asserted.
+//
+// The library injects its own stylesheet at runtime, but the scoped reset
+// above can win the cascade against it (equal specificity, order varies by
+// injection timing). These copies are scoped under .bindr-viewer, giving them
+// strictly higher specificity than the reset — deterministic either way.
+// Pinned to page-flip 2.0.7 (see LIBRARIES.md); re-verify on upgrade.
+// ---------------------------------------------------------------------------
+.bindr-viewer .stf__parent {
+	position: relative;
+	display: block;
+	box-sizing: border-box;
+	transform: translateZ( 0 );
+	touch-action: pan-y;
+}
+
+.bindr-viewer .stf__wrapper,
+.bindr-viewer .sft__wrapper { // Duplicated with the upstream typo, as shipped.
+	position: relative;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.bindr-viewer .stf__parent canvas {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+}
+
+.bindr-viewer .stf__block {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	perspective: 2000px;
+}
+
+.bindr-viewer .stf__item {
+	display: none;
+	position: absolute;
+	transform-style: preserve-3d;
+}
+
+.bindr-viewer .stf__outerShadow,
+.bindr-viewer .stf__innerShadow,
+.bindr-viewer .stf__hardShadow,
+.bindr-viewer .stf__hardInnerShadow {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Pages (shared by both engines)
+// ---------------------------------------------------------------------------
+.bindr-page {
+	background: #ffffff;
+	overflow: hidden;
+}
+
+.bindr-page__canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.bindr-book {
+	margin: 0 auto;
+}
+
+// Slide engine.
+.bindr-slides {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.bindr-slide {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: transparent;
+	transition: transform 0.3s ease;
+	will-change: transform;
+
+	.bindr-page__canvas {
+		width: auto;
+		height: auto;
+		max-width: 100%;
+		max-height: 100%;
+		background: #ffffff;
+	}
+}
+
+.bindr-slides--instant .bindr-slide {
+	transition: none;
+}
+
+// ---------------------------------------------------------------------------
+// Progress
+// ---------------------------------------------------------------------------
+.bindr-progress {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate( -50%, -50% );
+	width: min( 240px, 70% );
+	text-align: center;
+}
+
+.bindr-viewer--ready .bindr-progress {
+	display: none;
+}
+
+.bindr-progress__bar {
+	display: block;
+	height: 4px;
+	width: 0;
+	background: var( --bindr-accent );
+	border-radius: 2px;
+	transition: width 0.2s ease;
+}
+
+.bindr-progress__bar--indeterminate {
+	width: 100%;
+	animation: bindr-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes bindr-pulse {
+	0%,
+	100% {
+		opacity: 0.3;
+	}
+
+	50% {
+		opacity: 1;
+	}
+}
+
+@media ( prefers-reduced-motion: reduce ) {
+	.bindr-progress__bar--indeterminate {
+		animation: none;
+	}
+}
+
+.bindr-progress__label {
+	display: block;
+	margin-top: 8px;
+	color: var( --bindr-fg );
+}
+
+// ---------------------------------------------------------------------------
+// Error state
+// ---------------------------------------------------------------------------
+.bindr-error {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	min-height: 200px;
+	color: var( --bindr-fg );
+
+	a {
+		color: var( --bindr-fg );
+		text-decoration: underline;
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Toolbar
+// ---------------------------------------------------------------------------
+.bindr-toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	flex-wrap: wrap;
+	padding: 6px 8px;
+	background: var( --bindr-toolbar-bg );
+	color: var( --bindr-toolbar-fg );
+}
+
+.bindr-toolbar__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	border-radius: 4px;
+	background: transparent;
+	color: var( --bindr-toolbar-fg );
+	cursor: pointer;
+
+	// The scoped reset returns `fill` to the UA default (black), which beats
+	// the fill="currentColor" presentation attribute — re-assert it here.
+	svg,
+	svg path {
+		fill: currentColor;
+	}
+
+	&:hover:not( :disabled ) {
+		background: rgba( 255, 255, 255, 0.15 );
+	}
+
+	&:focus-visible {
+		outline: 2px solid var( --bindr-accent );
+		outline-offset: 1px;
+	}
+
+	&:disabled {
+		opacity: 0.35;
+		cursor: default;
+	}
+}
+
+.bindr-toolbar__pages {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	margin: 0 4px;
+	color: var( --bindr-toolbar-fg );
+	white-space: nowrap;
+}
+
+.bindr-toolbar__page-input {
+	width: 56px;
+	padding: 4px;
+	border: 1px solid rgba( 255, 255, 255, 0.4 );
+	border-radius: 4px;
+	background: rgba( 255, 255, 255, 0.1 );
+	color: var( --bindr-toolbar-fg );
+	text-align: center;
+	font-size: 14px;
+
+	&:focus-visible {
+		outline: 2px solid var( --bindr-accent );
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Full-page reading mode chrome (template markup, not inside .bindr-viewer,
+// so it gets its own minimal styling — the template document is ours).
+// ---------------------------------------------------------------------------
+.bindr-fullpage {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	height: 100dvh;
+	background: #262626;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		Oxygen-Sans, Ubuntu, sans-serif;
+}
+
+.bindr-fullpage__bar {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	padding: 8px 16px;
+	background: #1a1a1a;
+	color: #ffffff;
+	min-height: 48px;
+}
+
+.bindr-fullpage__back {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	color: #ffffff;
+	text-decoration: none;
+	font-size: 14px;
+	white-space: nowrap;
+
+	&:hover,
+	&:focus-visible {
+		text-decoration: underline;
+		color: #ffffff;
+	}
+}
+
+.bindr-fullpage__title {
+	flex: 1 1 auto;
+	margin: 0;
+	font-size: 16px;
+	font-weight: 600;
+	color: #ffffff;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.bindr-fullpage__logo {
+	flex: 0 0 auto;
+	font-size: 13px;
+	color: #bbbbbb;
+
+	img {
+		max-height: 32px;
+		width: auto;
+		display: block;
+	}
+}
+
+.bindr-fullpage__stage {
+	flex: 1 1 auto;
+	min-height: 0;
+	display: flex;
+}
+
+@media ( max-width: 480px ) {
+	.bindr-fullpage__logo {
+		display: none;
+	}
+}
