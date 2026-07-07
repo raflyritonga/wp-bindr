@@ -55,6 +55,7 @@ export class FlipEngine {
 		this.current = startPage;
 		const book = document.createElement( 'div' );
 		book.className = 'bindr-book';
+		this.book = book;
 		this.stage.appendChild( book );
 
 		this.pageEls = [];
@@ -78,6 +79,7 @@ export class FlipEngine {
 		this.flip.on( 'flip', ( e ) => {
 			this.current = e.data + 1;
 			this.renderWindow();
+			this.updateOffset();
 			this.opts.onTurn( this.current );
 		} );
 
@@ -85,6 +87,25 @@ export class FlipEngine {
 			this.flip.turnToPage( startPage - 1 );
 		}
 		this.renderWindow();
+		this.updateOffset();
+	}
+
+	/**
+	 * Center a lone cover page. StPageFlip parks the cover on the right half
+	 * of the spread (and a lone back cover on the left half), leaving the
+	 * other half empty; shift the book by half a page to compensate.
+	 */
+	updateOffset() {
+		const total = this.store.pageCount;
+		let shift = 0;
+		if ( 1 === this.current ) {
+			shift = -25; // 25% of the two-page-wide book = half a page.
+		} else if ( this.current === total && 0 === total % 2 ) {
+			shift = 25;
+		}
+		this.book.style.transform = shift
+			? `translateX(${ shift }%)`
+			: '';
 	}
 
 	/**

@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * The bindr/flipbook block and [flipbook] shortcode.
+ * The bindr/book block and [bindr] shortcode.
  */
 class Bindr_Block {
 
@@ -36,7 +36,7 @@ class Bindr_Block {
 	 */
 	public function register() {
 		add_action( 'init', array( $this, 'register_block' ) );
-		add_shortcode( 'flipbook', array( $this, 'render_shortcode' ) );
+		add_shortcode( 'bindr', array( $this, 'render_shortcode' ) );
 	}
 
 	/**
@@ -50,7 +50,7 @@ class Bindr_Block {
 			)
 		);
 		wp_set_script_translations(
-			'bindr-flipbook-editor-script',
+			'bindr-book-editor-script',
 			'wp-bindr',
 			BINDR_PLUGIN_DIR . 'languages'
 		);
@@ -65,7 +65,7 @@ class Bindr_Block {
 	public function render_block( $attributes ) {
 		return $this->viewer->render(
 			array(
-				'id'          => isset( $attributes['flipbookId'] ) ? (int) $attributes['flipbookId'] : 0,
+				'id'          => isset( $attributes['bookId'] ) ? (int) $attributes['bookId'] : 0,
 				'height_mode' => ( isset( $attributes['heightMode'] ) && 'fixed' === $attributes['heightMode'] ) ? 'fixed' : 'ratio',
 				'height'      => isset( $attributes['height'] ) ? (int) $attributes['height'] : 600,
 				'display'     => isset( $attributes['display'] ) ? (string) $attributes['display'] : '',
@@ -74,7 +74,7 @@ class Bindr_Block {
 	}
 
 	/**
-	 * Shortcode: [flipbook id="123" height="600" height_mode="ratio|fixed" display="single|double"].
+	 * Shortcode: [bindr id="123" height="600" height_mode="ratio|fixed" display="single|double"].
 	 *
 	 * @param array|string $atts Shortcode attributes.
 	 * @return string
@@ -88,7 +88,7 @@ class Bindr_Block {
 				'display'     => '',
 			),
 			$atts,
-			'flipbook'
+			'bindr'
 		);
 
 		return $this->viewer->render(

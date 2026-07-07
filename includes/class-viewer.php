@@ -130,7 +130,7 @@ class Bindr_Viewer {
 		$pdf_url = bindr_get_pdf_url( $post->ID );
 		if ( ! $pdf_url ) {
 			return current_user_can( 'edit_post', $post->ID )
-				? '<p class="bindr-viewer-notice">' . esc_html__( 'This flipbook has no PDF attached yet. Edit the flipbook and select one.', 'wp-bindr' ) . '</p>'
+				? '<p class="bindr-viewer-notice">' . esc_html__( 'This book has no PDF attached yet. Edit the book and select one.', 'wp-bindr' ) . '</p>'
 				: '';
 		}
 
@@ -159,7 +159,12 @@ class Bindr_Viewer {
 			'title'      => get_the_title( $post ),
 			'workerSrc'  => self::pdfjs_worker_url(),
 			'analytics'  => array(
-				'endpoint' => esc_url_raw( rest_url( 'bindr/v1/event' ) ),
+				// _wpnonce keeps REST cookie auth intact for logged-in
+				// readers: without it WordPress demotes the request to
+				// anonymous, and the bindr_event nonce (minted for the
+				// logged-in user) would never verify — silently dropping
+				// every event during logged-in testing.
+				'endpoint' => esc_url_raw( add_query_arg( '_wpnonce', wp_create_nonce( 'wp_rest' ), rest_url( 'bindr/v1/event' ) ) ),
 				'nonce'    => wp_create_nonce( 'bindr_event' ),
 			),
 			'strings'    => self::strings(),
@@ -244,7 +249,7 @@ class Bindr_Viewer {
 	 */
 	public static function strings() {
 		return array(
-			'loading'      => __( 'Loading flipbook…', 'wp-bindr' ),
+			'loading'      => __( 'Loading book…', 'wp-bindr' ),
 			'prev'         => __( 'Previous page', 'wp-bindr' ),
 			'next'         => __( 'Next page', 'wp-bindr' ),
 			/* translators: %1$s: current page number, %2$s: total pages. */
@@ -255,7 +260,7 @@ class Bindr_Viewer {
 			'fullscreen'   => __( 'Toggle fullscreen', 'wp-bindr' ),
 			'singleDouble' => __( 'Toggle single or double page', 'wp-bindr' ),
 			'download'     => __( 'Download PDF', 'wp-bindr' ),
-			'loadError'    => __( 'The flipbook could not be loaded.', 'wp-bindr' ),
+			'loadError'    => __( 'The book could not be loaded.', 'wp-bindr' ),
 			'openPdf'      => __( 'Open the PDF instead', 'wp-bindr' ),
 		);
 	}

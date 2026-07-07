@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Bindr 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-bindr\n"
-"POT-Creation-Date: 2026-07-07 15:11+00:00\n"
+"POT-Creation-Date: 2026-07-07 15:52+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -40,19 +40,19 @@ msgid "Add New"
 msgstr ""
 
 #: includes/class-cpt.php:44
-msgid "Add New Flipbook"
+msgid "Add New Book"
 msgstr ""
 
 #: includes/class-cpt.php:274
-msgid "Add the “Flipbook” block and pick this book from the list."
+msgid "Add the “Bindr Book” block and pick this book from the list."
 msgstr ""
 
 #: includes/class-cpt.php:51
-msgid "All Flipbooks"
+msgid "All Books"
 msgstr ""
 
 #: includes/class-settings.php:180
-msgid "Allow PDF download by default (can be changed per flipbook)"
+msgid "Allow PDF download by default (can be changed per book)"
 msgstr ""
 
 #: includes/class-dashboard.php:50
@@ -92,6 +92,26 @@ msgstr ""
 msgid "Background color"
 msgstr ""
 
+#: includes/class-cpt.php:52
+#: includes/class-settings.php:59
+msgid "Bindr"
+msgstr ""
+
+#: includes/class-dashboard.php:49
+#: includes/class-dashboard.php:119
+msgid "Bindr Analytics"
+msgstr ""
+
+#: src/block/edit.js:135
+#: src/block/block.json (block title)
+msgid "Bindr Book"
+msgstr ""
+
+#: includes/class-settings.php:58
+#: includes/class-settings.php:128
+msgid "Bindr Settings"
+msgstr ""
+
 #: includes/class-cpt.php:273
 msgid "Block editor"
 msgstr ""
@@ -100,17 +120,27 @@ msgstr ""
 msgid "book"
 msgstr ""
 
+#: includes/class-cpt.php:42
+#: includes/class-dashboard.php:166
+#: includes/class-dashboard.php:225
+msgid "Book"
+msgstr ""
+
 #: src/block/edit.js:113
 msgid "Book setting"
 msgstr ""
 
+#: includes/class-cpt.php:41
+msgid "Books"
+msgstr ""
+
 #: src/block/edit.js:68
 #: src/block/edit.js:142
-msgid "Choose a flipbook"
+msgid "Choose a book"
 msgstr ""
 
 #: src/block/edit.js
-msgid "Choose a flipbook in the block settings sidebar. Create flipbooks under Flipbooks in the admin menu."
+msgid "Choose a book in the block settings sidebar. Create books under Bindr in the admin menu."
 msgstr ""
 
 #. translators: %s: number of completed reads.
@@ -150,7 +180,7 @@ msgid "Default page display"
 msgstr ""
 
 #: includes/class-settings.php:231
-msgid "Delete all flipbooks, settings, and analytics data when the plugin is uninstalled"
+msgid "Delete all books, settings, and analytics data when the plugin is uninstalled"
 msgstr ""
 
 #: src/block/edit.js:117
@@ -166,7 +196,7 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: includes/class-viewer.php:257
+#: includes/class-viewer.php:262
 msgid "Download PDF"
 msgstr ""
 
@@ -177,14 +207,14 @@ msgid "Downloads"
 msgstr ""
 
 #: includes/class-cpt.php:45
-msgid "Edit Flipbook"
+msgid "Edit Book"
 msgstr ""
 
 #: src/block/block.json (block description)
-msgid "Embed an interactive flipbook created from a PDF."
+msgid "Embed an interactive book created from a PDF."
 msgstr ""
 
-#: includes/class-analytics.php:156
+#: includes/class-analytics.php:168
 msgid "Empty event batch."
 msgstr ""
 
@@ -200,28 +230,6 @@ msgstr ""
 msgid "flipbook"
 msgstr ""
 
-#: includes/class-cpt.php:42
-#: includes/class-dashboard.php:166
-#: includes/class-dashboard.php:225
-msgid "Flipbook"
-msgstr ""
-
-#: includes/class-dashboard.php:49
-#: includes/class-dashboard.php:119
-msgid "Flipbook Analytics"
-msgstr ""
-
-#: includes/class-settings.php:58
-#: includes/class-settings.php:128
-msgid "Flipbook Settings"
-msgstr ""
-
-#: includes/class-cpt.php:41
-#: includes/class-cpt.php:52
-#: includes/class-settings.php:59
-msgid "Flipbooks"
-msgstr ""
-
 #: includes/class-cpt.php:277
 msgid "Full-page reading mode"
 msgstr ""
@@ -231,7 +239,7 @@ msgid "Full-Page Reading Mode"
 msgstr ""
 
 #. translators: %1$s: current page number, %2$s: total pages.
-#: includes/class-viewer.php:252
+#: includes/class-viewer.php:257
 msgid "Go to page"
 msgstr ""
 
@@ -248,10 +256,10 @@ msgid "Height-to-width ratio of a single page. Automatic reads it from the PDF i
 msgstr ""
 
 #: src/block/edit.js
-msgid "Interactive flipbook — preview it on the front end."
+msgid "Interactive book — preview it on the front end."
 msgstr ""
 
-#: includes/class-analytics.php:142
+#: includes/class-analytics.php:154
 msgid "Invalid or expired analytics token."
 msgstr ""
 
@@ -260,8 +268,8 @@ msgstr ""
 msgid "Last %s days"
 msgstr ""
 
-#: includes/class-viewer.php:247
-msgid "Loading flipbook…"
+#: includes/class-viewer.php:252
+msgid "Loading book…"
 msgstr ""
 
 #: src/block/edit.js:171
@@ -273,19 +281,19 @@ msgid "magazine"
 msgstr ""
 
 #: includes/class-cpt.php:46
-msgid "New Flipbook"
+msgid "New Book"
 msgstr ""
 
-#: includes/class-viewer.php:249
+#: includes/class-viewer.php:254
 msgid "Next page"
 msgstr ""
 
 #: includes/class-cpt.php:50
-msgid "No flipbooks found in Trash."
+msgid "No books found in Trash."
 msgstr ""
 
 #: includes/class-cpt.php:49
-msgid "No flipbooks found."
+msgid "No books found."
 msgstr ""
 
 #: includes/class-dashboard.php:176
@@ -300,7 +308,7 @@ msgstr ""
 msgid "Open the full analytics dashboard"
 msgstr ""
 
-#: includes/class-viewer.php:259
+#: includes/class-viewer.php:264
 msgid "Open the PDF instead"
 msgstr ""
 
@@ -309,7 +317,7 @@ msgid "Optional logo shown in the top bar of full-page reading mode."
 msgstr ""
 
 #. translators: %1$s: current page number, %2$s: total pages.
-#: includes/class-viewer.php:251
+#: includes/class-viewer.php:256
 msgid "Page %1$s of %2$s"
 msgstr ""
 
@@ -335,10 +343,10 @@ msgid "PDF Document"
 msgstr ""
 
 #: includes/class-dashboard.php:162
-msgid "Per flipbook"
+msgid "Per book"
 msgstr ""
 
-#: includes/class-viewer.php:248
+#: includes/class-viewer.php:253
 msgid "Previous page"
 msgstr ""
 
@@ -351,7 +359,7 @@ msgid "Raw reading events older than this are deleted automatically. Daily summa
 msgstr ""
 
 #. translators: %s: flipbook title.
-#: includes/class-viewer.php:203
+#: includes/class-viewer.php:208
 msgid "Read “%s” (PDF)"
 msgstr ""
 
@@ -387,11 +395,11 @@ msgid "Responsive (from page ratio)"
 msgstr ""
 
 #: includes/class-cpt.php:262
-msgid "Save the flipbook first to get its shortcode and link."
+msgid "Save the book first to get its shortcode and link."
 msgstr ""
 
 #: includes/class-cpt.php:48
-msgid "Search Flipbooks"
+msgid "Search Books"
 msgstr ""
 
 #: includes/class-cpt.php:440
@@ -422,26 +430,26 @@ msgid "Single page"
 msgstr ""
 
 #: includes/class-dashboard.php:255
-msgid "Statistics appear once the flipbook is published."
+msgid "Statistics appear once the book is published."
 msgstr ""
 
-#: includes/class-viewer.php:258
-msgid "The flipbook could not be loaded."
+#: includes/class-viewer.php:263
+msgid "The book could not be loaded."
 msgstr ""
 
 #: includes/class-viewer.php:133
-msgid "This flipbook has no PDF attached yet. Edit the flipbook and select one."
+msgid "This book has no PDF attached yet. Edit the book and select one."
 msgstr ""
 
-#: includes/class-viewer.php:255
+#: includes/class-viewer.php:260
 msgid "Toggle fullscreen"
 msgstr ""
 
-#: includes/class-viewer.php:256
+#: includes/class-viewer.php:261
 msgid "Toggle single or double page"
 msgstr ""
 
-#: includes/class-analytics.php:166
+#: includes/class-analytics.php:178
 msgid "Too many events."
 msgstr ""
 
@@ -473,7 +481,7 @@ msgid "Upload the PDF to your Media Library first, then select it here. The page
 msgstr ""
 
 #: includes/class-cpt.php:141
-msgid "Use This Flipbook"
+msgid "Use This Book"
 msgstr ""
 
 #: includes/class-cpt.php:441
@@ -481,7 +489,7 @@ msgid "Use this PDF"
 msgstr ""
 
 #: includes/class-cpt.php:47
-msgid "View Flipbook"
+msgid "View Book"
 msgstr ""
 
 #: includes/class-settings.php:80
@@ -493,18 +501,18 @@ msgid "Viewer Options"
 msgstr ""
 
 #: includes/class-settings.php:191
-msgid "Where the back button goes when a reader opens a flipbook directly (for example from a shared link). Defaults to the homepage."
+msgid "Where the back button goes when a reader opens a book directly (for example from a shared link). Defaults to the homepage."
 msgstr ""
 
 #: includes/class-dashboard.php:204
 msgid "You are not allowed to export analytics."
 msgstr ""
 
-#: includes/class-viewer.php:253
+#: includes/class-viewer.php:258
 msgid "Zoom in"
 msgstr ""
 
-#: includes/class-viewer.php:254
+#: includes/class-viewer.php:259
 msgid "Zoom out"
 msgstr ""
 

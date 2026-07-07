@@ -8,6 +8,7 @@ import { Analytics } from './analytics';
 
 const MOBILE_BREAKPOINT = 768;
 const MAX_PAGE_WIDTH = 900;
+const STAGE_PADDING = 24; // Keep in sync with .bindr-stage padding in index.scss.
 
 const ICONS = {
 	prev: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M15.4 7.4 14 6l-6 6 6 6 1.4-1.4L10.8 12z"/></svg>',
@@ -262,26 +263,34 @@ export class Viewer {
 		const flip = this.wantsFlip();
 		const ratio = this.config.ratio || 1.414;
 		const rootW = this.root.clientWidth || 600;
+		const availW = Math.max( 120, rootW - 2 * STAGE_PADDING );
 
-		// Stage height: fill the root in fullpage/fixed layouts, otherwise
-		// derive from width + ratio, capped to the viewport.
-		let stageH;
+		// Stage height: fill the root in fullpage/fixed/fullscreen layouts,
+		// otherwise derive from width + ratio, capped to the viewport.
+		let innerH;
 		if (
 			this.config.fullpage ||
+			this.isFullscreen() ||
 			this.root.classList.contains( 'bindr-viewer--fixed' )
 		) {
-			stageH = this.stage.clientHeight || 400;
+			this.stage.style.height = '';
+			innerH = Math.max(
+				120,
+				( this.stage.clientHeight || 400 ) - 2 * STAGE_PADDING
+			);
 		} else {
-			stageH = Math.min(
-				( flip ? rootW / 2 : rootW ) * ratio,
+			innerH = Math.min(
+				( flip ? availW / 2 : availW ) * ratio,
 				window.innerHeight * 0.85
 			);
-			this.stage.style.height = `${ Math.round( stageH ) }px`;
+			this.stage.style.height = `${ Math.round(
+				innerH + 2 * STAGE_PADDING
+			) }px`;
 		}
 
 		const pageW = Math.min(
-			flip ? rootW / 2 : rootW,
-			stageH / ratio,
+			flip ? availW / 2 : availW,
+			innerH / ratio,
 			MAX_PAGE_WIDTH
 		);
 		const pageH = pageW * ratio;
@@ -394,6 +403,18 @@ export class Viewer {
 	}
 
 	/**
+	 * Whether this viewer currently fills the screen (real or fake fullscreen).
+	 *
+	 * @return {boolean} True when fullscreen.
+	 */
+	isFullscreen() {
+		return (
+			document.fullscreenElement === this.root ||
+			this.root.classList.contains( 'bindr-viewer--fs-fake' )
+		);
+	}
+
+	/**
 	 * Fullscreen with an iOS-Safari CSS fallback.
 	 */
 	toggleFullscreen() {
@@ -470,6 +491,18 @@ export class Viewer {
 			} );
 		}
 
+		// Entering/leaving fullscreen may keep the same width (maximized
+		// window), so the width-based observer alone would skip the relayout
+		// the stage needs to switch between ratio height and fill height.
+		this.onFullscreenChange = () => {
+			this.root.classList.toggle(
+				'bindr-viewer--fs',
+				document.fullscreenElement === this.root
+			);
+			this.relayout();
+		};
+		document.addEventListener( 'fullscreenchange', this.onFullscreenChange );
+
 		// Hidden-then-shown containers (tabs, accordions) report width 0 at
 		// init time; re-measure when the viewer becomes visible.
 		if ( 'undefined' !== typeof IntersectionObserver ) {
@@ -506,6 +539,12 @@ export class Viewer {
 		}
 		if ( this.intersectionObserver ) {
 			this.intersectionObserver.disconnect();
+		}
+		if ( this.onFullscreenChange ) {
+			document.removeEventListener(
+				'fullscreenchange',
+				this.onFullscreenChange
+			);
 		}
 		if ( this.engine ) {
 			this.engine.destroy();

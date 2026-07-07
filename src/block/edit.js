@@ -17,24 +17,24 @@ import { useSelect } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/core-data';
 
 export default function Edit( { attributes, setAttributes } ) {
-	const { flipbookId, heightMode, height, display } = attributes;
+	const { bookId, heightMode, height, display } = attributes;
 
-	const { flipbooks, selected, cover } = useSelect(
+	const { books, selected, cover } = useSelect(
 		( select ) => {
 			const { getEntityRecords, getEntityRecord, getMedia } =
 				select( coreStore );
 			const records =
-				getEntityRecords( 'postType', 'bindr_flipbook', {
+				getEntityRecords( 'postType', 'bindr_book', {
 					per_page: 100,
 					status: 'publish',
 					orderby: 'title',
 					order: 'asc',
 				} ) || [];
-			const current = flipbookId
-				? getEntityRecord( 'postType', 'bindr_flipbook', flipbookId )
+			const current = bookId
+				? getEntityRecord( 'postType', 'bindr_book', bookId )
 				: null;
 			return {
-				flipbooks: records,
+				books: records,
 				selected: current,
 				cover:
 					current && current.featured_media
@@ -42,10 +42,10 @@ export default function Edit( { attributes, setAttributes } ) {
 						: null,
 			};
 		},
-		[ flipbookId ]
+		[ bookId ]
 	);
 
-	const options = flipbooks.map( ( book ) => ( {
+	const options = books.map( ( book ) => ( {
 		value: String( book.id ),
 		label: book.title.rendered || `#${ book.id }`,
 	} ) );
@@ -63,14 +63,14 @@ export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<div { ...blockProps }>
 			<InspectorControls>
-				<PanelBody title={ __( 'Flipbook', 'wp-bindr' ) }>
+				<PanelBody title={ __( 'Book', 'wp-bindr' ) }>
 					<ComboboxControl
-						label={ __( 'Choose a flipbook', 'wp-bindr' ) }
-						value={ flipbookId ? String( flipbookId ) : '' }
+						label={ __( 'Choose a book', 'wp-bindr' ) }
+						value={ bookId ? String( bookId ) : '' }
 						options={ options }
 						onChange={ ( value ) =>
 							setAttributes( {
-								flipbookId: value ? parseInt( value, 10 ) : 0,
+								bookId: value ? parseInt( value, 10 ) : 0,
 							} )
 						}
 					/>
@@ -129,29 +129,29 @@ export default function Edit( { attributes, setAttributes } ) {
 				</PanelBody>
 			</InspectorControls>
 
-			{ ! flipbookId && (
+			{ ! bookId && (
 				<Placeholder
 					icon="book"
-					label={ __( 'Flipbook', 'wp-bindr' ) }
+					label={ __( 'Bindr Book', 'wp-bindr' ) }
 					instructions={ __(
-						'Choose a flipbook in the block settings sidebar. Create flipbooks under Flipbooks in the admin menu.',
+						'Choose a book in the block settings sidebar. Create books under Bindr in the admin menu.',
 						'wp-bindr'
 					) }
 				>
 					<ComboboxControl
-						label={ __( 'Choose a flipbook', 'wp-bindr' ) }
+						label={ __( 'Choose a book', 'wp-bindr' ) }
 						value=""
 						options={ options }
 						onChange={ ( value ) =>
 							setAttributes( {
-								flipbookId: value ? parseInt( value, 10 ) : 0,
+								bookId: value ? parseInt( value, 10 ) : 0,
 							} )
 						}
 					/>
 				</Placeholder>
 			) }
 
-			{ !! flipbookId && (
+			{ !! bookId && (
 				<div className="bindr-block-preview__frame">
 					{ coverUrl ? (
 						<img
@@ -172,7 +172,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					</span>
 					<span className="bindr-block-preview__hint">
 						{ __(
-							'Interactive flipbook — preview it on the front end.',
+							'Interactive book — preview it on the front end.',
 							'wp-bindr'
 						) }
 					</span>

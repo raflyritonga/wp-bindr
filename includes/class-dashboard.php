@@ -46,7 +46,7 @@ class Bindr_Dashboard {
 	public function add_page() {
 		add_submenu_page(
 			'edit.php?post_type=' . Bindr_CPT::POST_TYPE,
-			__( 'Flipbook Analytics', 'wp-bindr' ),
+			__( 'Bindr Analytics', 'wp-bindr' ),
 			__( 'Analytics', 'wp-bindr' ),
 			'manage_options',
 			'bindr-analytics',
@@ -116,7 +116,7 @@ class Bindr_Dashboard {
 		);
 		?>
 		<div class="wrap bindr-dashboard">
-			<h1><?php esc_html_e( 'Flipbook Analytics', 'wp-bindr' ); ?></h1>
+			<h1><?php esc_html_e( 'Bindr Analytics', 'wp-bindr' ); ?></h1>
 
 			<p class="bindr-dashboard__range">
 				<?php
@@ -159,11 +159,11 @@ class Bindr_Dashboard {
 				<div id="bindr-chart" data-series="<?php echo esc_attr( wp_json_encode( $series ) ); ?>" data-from="<?php echo esc_attr( $range['from'] ); ?>" data-to="<?php echo esc_attr( $range['to'] ); ?>"></div>
 			</div>
 
-			<h2><?php esc_html_e( 'Per flipbook', 'wp-bindr' ); ?></h2>
+			<h2><?php esc_html_e( 'Per book', 'wp-bindr' ); ?></h2>
 			<table class="widefat striped bindr-books-table">
 				<thead>
 					<tr>
-						<th><?php esc_html_e( 'Flipbook', 'wp-bindr' ); ?></th>
+						<th><?php esc_html_e( 'Book', 'wp-bindr' ); ?></th>
 						<th><?php esc_html_e( 'Reads', 'wp-bindr' ); ?></th>
 						<th><?php esc_html_e( 'Unique readers (daily)', 'wp-bindr' ); ?></th>
 						<th><?php esc_html_e( 'Completions', 'wp-bindr' ); ?></th>
@@ -211,7 +211,7 @@ class Bindr_Dashboard {
 
 		nocache_headers();
 		header( 'Content-Type: text/csv; charset=utf-8' );
-		header( 'Content-Disposition: attachment; filename=flipbook-analytics-' . $range['from'] . '-' . $range['to'] . '.csv' );
+		header( 'Content-Disposition: attachment; filename=bindr-analytics-' . $range['from'] . '-' . $range['to'] . '.csv' );
 
 		$out = fopen( 'php://output', 'w' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Streaming CSV to the browser.
 		fwrite( $out, "\xEF\xBB\xBF" ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite
@@ -222,7 +222,7 @@ class Bindr_Dashboard {
 		}
 
 		fputcsv( $out, array() );
-		fputcsv( $out, array( __( 'Flipbook', 'wp-bindr' ), __( 'Reads', 'wp-bindr' ), __( 'Unique readers', 'wp-bindr' ), __( 'Completions', 'wp-bindr' ), __( 'Downloads', 'wp-bindr' ), __( 'Avg. furthest page', 'wp-bindr' ) ) );
+		fputcsv( $out, array( __( 'Book', 'wp-bindr' ), __( 'Reads', 'wp-bindr' ), __( 'Unique readers', 'wp-bindr' ), __( 'Completions', 'wp-bindr' ), __( 'Downloads', 'wp-bindr' ), __( 'Avg. furthest page', 'wp-bindr' ) ) );
 		foreach ( $books as $id => $row ) {
 			fputcsv( $out, array( get_the_title( $id ) ? get_the_title( $id ) : "#{$id}", $row['opens'], $row['uniques'], $row['completes'], $row['downloads'], $row['avg_max_page'] ) );
 		}
@@ -252,7 +252,7 @@ class Bindr_Dashboard {
 	 */
 	public function render_stats_box( $post ) {
 		if ( 'publish' !== $post->post_status ) {
-			echo '<p>' . esc_html__( 'Statistics appear once the flipbook is published.', 'wp-bindr' ) . '</p>';
+			echo '<p>' . esc_html__( 'Statistics appear once the book is published.', 'wp-bindr' ) . '</p>';
 			return;
 		}
 
@@ -304,7 +304,7 @@ class Bindr_Dashboard {
 	 * @param string $hook_suffix Current admin page.
 	 */
 	public function enqueue_assets( $hook_suffix ) {
-		if ( 'bindr_flipbook_page_bindr-analytics' !== $hook_suffix ) {
+		if ( 'bindr_book_page_bindr-analytics' !== $hook_suffix ) {
 			return;
 		}
 		$asset = include BINDR_PLUGIN_DIR . 'build/admin-dashboard/index.asset.php';

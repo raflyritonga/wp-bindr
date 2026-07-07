@@ -10,11 +10,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Registers the bindr_flipbook post type and its admin edit experience.
+ * Registers the bindr_book post type and its admin edit experience.
  */
 class Bindr_CPT {
 
-	const POST_TYPE = 'bindr_flipbook';
+	const POST_TYPE = 'bindr_book';
 
 	/**
 	 * Hook registration.
@@ -38,18 +38,18 @@ class Bindr_CPT {
 			self::POST_TYPE,
 			array(
 				'labels'       => array(
-					'name'               => __( 'Flipbooks', 'wp-bindr' ),
-					'singular_name'      => __( 'Flipbook', 'wp-bindr' ),
+					'name'               => __( 'Books', 'wp-bindr' ),
+					'singular_name'      => __( 'Book', 'wp-bindr' ),
 					'add_new'            => __( 'Add New', 'wp-bindr' ),
-					'add_new_item'       => __( 'Add New Flipbook', 'wp-bindr' ),
-					'edit_item'          => __( 'Edit Flipbook', 'wp-bindr' ),
-					'new_item'           => __( 'New Flipbook', 'wp-bindr' ),
-					'view_item'          => __( 'View Flipbook', 'wp-bindr' ),
-					'search_items'       => __( 'Search Flipbooks', 'wp-bindr' ),
-					'not_found'          => __( 'No flipbooks found.', 'wp-bindr' ),
-					'not_found_in_trash' => __( 'No flipbooks found in Trash.', 'wp-bindr' ),
-					'all_items'          => __( 'All Flipbooks', 'wp-bindr' ),
-					'menu_name'          => __( 'Flipbooks', 'wp-bindr' ),
+					'add_new_item'       => __( 'Add New Book', 'wp-bindr' ),
+					'edit_item'          => __( 'Edit Book', 'wp-bindr' ),
+					'new_item'           => __( 'New Book', 'wp-bindr' ),
+					'view_item'          => __( 'View Book', 'wp-bindr' ),
+					'search_items'       => __( 'Search Books', 'wp-bindr' ),
+					'not_found'          => __( 'No books found.', 'wp-bindr' ),
+					'not_found_in_trash' => __( 'No books found in Trash.', 'wp-bindr' ),
+					'all_items'          => __( 'All Books', 'wp-bindr' ),
+					'menu_name'          => __( 'Bindr', 'wp-bindr' ),
 				),
 				'public'       => true,
 				'has_archive'  => false,
@@ -57,7 +57,7 @@ class Bindr_CPT {
 				'menu_icon'    => 'dashicons-book',
 				'supports'     => array( 'title', 'thumbnail' ),
 				'rewrite'      => array(
-					'slug'       => 'flipbook',
+					'slug'       => 'bindr',
 					'with_front' => false,
 				),
 			)
@@ -76,7 +76,7 @@ class Bindr_CPT {
 				'single'        => true,
 				'default'       => 0,
 				'show_in_rest'  => true,
-				'auth_callback' => array( $this, 'can_edit_flipbooks' ),
+				'auth_callback' => array( $this, 'can_edit_books' ),
 			)
 		);
 		register_post_meta(
@@ -87,7 +87,7 @@ class Bindr_CPT {
 				'single'        => true,
 				'default'       => 0,
 				'show_in_rest'  => true,
-				'auth_callback' => array( $this, 'can_edit_flipbooks' ),
+				'auth_callback' => array( $this, 'can_edit_books' ),
 			)
 		);
 	}
@@ -97,7 +97,7 @@ class Bindr_CPT {
 	 *
 	 * @return bool
 	 */
-	public function can_edit_flipbooks() {
+	public function can_edit_books() {
 		return current_user_can( 'edit_posts' );
 	}
 
@@ -138,7 +138,7 @@ class Bindr_CPT {
 		);
 		add_meta_box(
 			'bindr-usage',
-			__( 'Use This Flipbook', 'wp-bindr' ),
+			__( 'Use This Book', 'wp-bindr' ),
 			array( $this, 'render_usage_metabox' ),
 			self::POST_TYPE,
 			'side',
@@ -152,7 +152,7 @@ class Bindr_CPT {
 	 * @param WP_Post $post Current post.
 	 */
 	public function render_pdf_metabox( $post ) {
-		wp_nonce_field( 'bindr_save_flipbook', 'bindr_nonce' );
+		wp_nonce_field( 'bindr_save_book', 'bindr_nonce' );
 
 		$pdf_id     = (int) get_post_meta( $post->ID, '_bindr_pdf_id', true );
 		$page_count = (int) get_post_meta( $post->ID, '_bindr_page_count', true );
@@ -259,10 +259,10 @@ class Bindr_CPT {
 	 */
 	public function render_usage_metabox( $post ) {
 		if ( 'auto-draft' === $post->post_status ) {
-			echo '<p>' . esc_html__( 'Save the flipbook first to get its shortcode and link.', 'wp-bindr' ) . '</p>';
+			echo '<p>' . esc_html__( 'Save the book first to get its shortcode and link.', 'wp-bindr' ) . '</p>';
 			return;
 		}
-		$shortcode = sprintf( '[flipbook id="%d"]', $post->ID );
+		$shortcode = sprintf( '[bindr id="%d"]', $post->ID );
 		?>
 		<p><strong><?php esc_html_e( 'Shortcode', 'wp-bindr' ); ?></strong></p>
 		<p>
@@ -271,7 +271,7 @@ class Bindr_CPT {
 		<p class="description"><?php esc_html_e( 'Paste this into any post, page, or page builder text widget.', 'wp-bindr' ); ?></p>
 
 		<p><strong><?php esc_html_e( 'Block editor', 'wp-bindr' ); ?></strong></p>
-		<p class="description"><?php esc_html_e( 'Add the “Flipbook” block and pick this book from the list.', 'wp-bindr' ); ?></p>
+		<p class="description"><?php esc_html_e( 'Add the “Bindr Book” block and pick this book from the list.', 'wp-bindr' ); ?></p>
 
 		<?php if ( 'publish' === $post->post_status ) : ?>
 			<p><strong><?php esc_html_e( 'Full-page reading mode', 'wp-bindr' ); ?></strong></p>
@@ -291,7 +291,7 @@ class Bindr_CPT {
 	 * @param WP_Post $post    Post object.
 	 */
 	public function save_meta( $post_id, $post ) {
-		if ( ! isset( $_POST['bindr_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['bindr_nonce'] ), 'bindr_save_flipbook' ) ) {
+		if ( ! isset( $_POST['bindr_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['bindr_nonce'] ), 'bindr_save_book' ) ) {
 			return;
 		}
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -347,7 +347,7 @@ class Bindr_CPT {
 		 * @param int     $pdf_id  PDF attachment ID.
 		 * @param WP_Post $post    Post object.
 		 */
-		do_action( 'bindr_flipbook_saved', $post_id, $pdf_id, $post );
+		do_action( 'bindr_book_saved', $post_id, $pdf_id, $post );
 	}
 
 	/**
@@ -395,7 +395,7 @@ class Bindr_CPT {
 		 * @param array $options Options.
 		 * @param int   $post_id Flipbook post ID.
 		 */
-		return apply_filters( 'bindr_flipbook_options', $options, $post_id );
+		return apply_filters( 'bindr_book_options', $options, $post_id );
 	}
 
 	/**
@@ -476,7 +476,7 @@ class Bindr_CPT {
 			echo $count ? esc_html( number_format_i18n( $count ) ) : '&mdash;';
 		}
 		if ( 'bindr_shortcode' === $column ) {
-			printf( '<code>[flipbook id="%d"]</code>', (int) $post_id );
+			printf( '<code>[bindr id="%d"]</code>', (int) $post_id );
 		}
 	}
 }

@@ -16,15 +16,15 @@ Bindr turns any PDF in your Media Library into an interactive flipbook with a re
 
 **Features**
 
-* Create flipbooks from Media Library PDFs — no conversion step, no re-upload.
-* Embed anywhere with the Flipbook block or the `[flipbook id="123"]` shortcode.
+* Create books from Media Library PDFs — no conversion step, no re-upload.
+* Embed anywhere with the Bindr Book block or the `[bindr id="123"]` shortcode.
 * Distraction-free full-page reading mode at a clean shareable URL, with a back button.
 * Built-in privacy-friendly analytics: reads, unique readers, completion rate, downloads — with a dashboard, per-book statistics, and CSV export.
 * Works with any theme: the viewer is fully style-isolated and the full-page mode uses its own template.
 * Responsive: double-page spreads on desktop, single-page swipe on phones.
 * Accessible: full keyboard navigation, screen-reader labels, honors reduced-motion preferences.
 * Translation-ready; ships with a complete Bahasa Indonesia translation.
-* Light on shared hosting: assets load only on pages with flipbooks, old analytics events are pruned automatically.
+* Light on shared hosting: assets load only on pages with books, old analytics events are pruned automatically.
 
 **Privacy**
 
@@ -33,9 +33,9 @@ No cookies. No personal data. Readers are counted with a salted hash that change
 == Installation ==
 
 1. Install and activate the plugin.
-2. Go to **Flipbooks → Add New**, give the book a title, and select a PDF from your Media Library.
-3. Publish. Copy the shortcode from the "Use This Flipbook" box, or add the **Flipbook** block to any post or page.
-4. Share the flipbook's own URL for full-page reading mode.
+2. Go to **Bindr → Add New**, give the book a title, and select a PDF from your Media Library.
+3. Publish. Copy the shortcode from the "Use This Book" box, or add the **Bindr Book** block to any post or page.
+4. Share the book’s own URL for full-page reading mode.
 
 == Frequently Asked Questions ==
 
@@ -49,31 +49,31 @@ No. Page counting and previews happen in the browser via PDF.js. If your server 
 
 = Does it work with page builders like Elementor or Divi? =
 
-Yes — use the shortcode `[flipbook id="123"]` in any text/shortcode widget or module.
+Yes — use the shortcode `[bindr id="123"]` in any text/shortcode widget or module.
 
 = I use a page-caching plugin and analytics look low. Why? =
 
-The analytics token embedded in cached pages expires after about a day. If your cache lifetime is longer than 24 hours, some events are dropped. Reduce the cache TTL for pages containing flipbooks, or exclude flipbook URLs from caching.
+The analytics token embedded in cached pages expires after about a day. If your cache lifetime is longer than 24 hours, some events are dropped. Reduce the cache TTL for pages containing books, or exclude book URLs from caching.
 
 = Can readers download the original PDF? =
 
-Only if you enable the download button — globally in Settings → Flipbooks, or per book.
+Only if you enable the download button — globally in Settings → Bindr, or per book.
 
 = What happens to my data if I uninstall the plugin? =
 
-By default everything is kept. If you tick "Delete all data on uninstall" in Settings → Flipbooks first, uninstalling removes flipbooks, settings, and analytics tables.
+By default everything is kept. If you tick "Delete all data on uninstall" in Settings → Bindr first, uninstalling removes books, settings, and analytics tables.
 
 == Screenshots ==
 
-1. A flipbook embedded in a post.
+1. A book embedded in a post.
 2. Full-page reading mode.
-3. Creating a flipbook from a Media Library PDF.
+3. Creating a book from a Media Library PDF.
 4. The analytics dashboard.
 
 == Changelog ==
 
 = 1.0.0 =
-* Initial release: flipbook CPT, Gutenberg block + shortcode, full-page reading mode, local privacy-friendly analytics with CSV export, complete Bahasa Indonesia translation.
+* Initial release: book CPT, Gutenberg block + shortcode, full-page reading mode, local privacy-friendly analytics with CSV export, complete Bahasa Indonesia translation.
 
 == Upgrade Notice ==
 

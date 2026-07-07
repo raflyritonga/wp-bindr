@@ -10,8 +10,8 @@ statistics stay on your server.
 
 ## Features
 
-- **Create** flipbooks from any Media Library PDF — no conversion, no re-upload.
-- **Embed** with the `Flipbook` Gutenberg block or the `[flipbook id="123"]`
+- **Create** books from any Media Library PDF — no conversion, no re-upload.
+- **Embed** with the `Bindr Book` Gutenberg block or the `[bindr id="123"]`
   shortcode (block and shortcode share one server render path).
 - **Full-page reading mode** at a clean shareable URL, served by the plugin's
   own blank-canvas template with a smart back button and social meta.
@@ -24,7 +24,7 @@ statistics stay on your server.
 - **Responsive & accessible**: book spreads on desktop, single-page swipe on
   phones, full keyboard navigation, screen-reader labels, honors
   `prefers-reduced-motion`.
-- **Light on shared hosting**: zero assets on pages without flipbooks, at
+- **Light on shared hosting**: zero assets on pages without books, at
   most 6 rendered canvases in memory regardless of book length.
 - Ships with a complete Bahasa Indonesia translation.
 
@@ -34,20 +34,11 @@ statistics stay on your server.
 - PHP ≥ 7.4
 - MySQL ≥ 5.7 / MariaDB equivalent
 
-## Development
+## Contributing
 
-```bash
-npm install          # JS toolchain (@wordpress/scripts)
-npm run build        # compile block + viewer, copy vendor libs, build i18n
-composer install     # PHPCS (WordPress Coding Standards)
-composer lint        # phpcs
-npm run lint:js      # eslint
-```
-
-Compiled assets live in `build/` (committed for distribution). Bundled
-third-party libraries are pinned and documented in [LIBRARIES.md](LIBRARIES.md).
-Architecture notes live in [docs/DECISIONS.md](docs/DECISIONS.md), and the
-manual test matrix in [TESTING.md](TESTING.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the development setup, build
+commands, and pull request guidelines. Bundled third-party libraries are
+pinned and documented in [LIBRARIES.md](LIBRARIES.md).
 
 ## License
 

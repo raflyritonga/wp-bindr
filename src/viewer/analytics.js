@@ -8,11 +8,11 @@
 export class Analytics {
 	/**
 	 * @param {Object} config           Viewer config.
-	 * @param {number} config.id        Flipbook ID.
+	 * @param {number} config.id        Book ID.
 	 * @param {Object} config.analytics { endpoint, nonce }.
 	 */
 	constructor( config ) {
-		this.flipbookId = config.id;
+		this.bookId = config.id;
 		this.endpoint = config.analytics && config.analytics.endpoint;
 		this.nonce = config.analytics && config.analytics.nonce;
 		this.queue = [];
@@ -41,7 +41,7 @@ export class Analytics {
 		if ( ! this.endpoint ) {
 			return;
 		}
-		this.queue.push( { flipbook: this.flipbookId, event, page } );
+		this.queue.push( { book: this.bookId, event, page } );
 		if ( this.queue.length >= 20 ) {
 			this.flush( false );
 		}

@@ -2,3 +2,8 @@ node_modules/
 vendor/
 *.zip
 .DS_Store
+
+# Internal working notes and editor config.
+docs/
+TESTING.md
+.phpactor.json

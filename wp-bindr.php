@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'BINDR_VERSION', '1.0.0' );
-define( 'BINDR_DB_VERSION', '1' );
+define( 'BINDR_DB_VERSION', '2' );
 define( 'BINDR_PLUGIN_FILE', __FILE__ );
 define( 'BINDR_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BINDR_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -59,26 +59,26 @@ function bindr_plugin() {
 }
 
 /**
- * Get the PDF URL for a flipbook.
+ * Get the PDF URL for a book.
  *
  * Cloud seam (v2): CDN delivery replaces this via the `bindr_pdf_url` filter —
  * the viewer never builds URLs itself.
  *
- * @param int $flipbook_id Flipbook post ID.
+ * @param int $book_id Book post ID.
  * @return string PDF URL, empty string if none.
  */
-function bindr_get_pdf_url( $flipbook_id ) {
-	$pdf_id = (int) get_post_meta( $flipbook_id, '_bindr_pdf_id', true );
+function bindr_get_pdf_url( $book_id ) {
+	$pdf_id = (int) get_post_meta( $book_id, '_bindr_pdf_id', true );
 	$url    = $pdf_id ? (string) wp_get_attachment_url( $pdf_id ) : '';
 
 	/**
 	 * Filter the PDF URL served to the viewer.
 	 *
 	 * @param string $url         PDF URL.
-	 * @param int    $flipbook_id Flipbook post ID.
+	 * @param int    $book_id Book post ID.
 	 * @param int    $pdf_id      Attachment ID.
 	 */
-	return apply_filters( 'bindr_pdf_url', $url, $flipbook_id, $pdf_id );
+	return apply_filters( 'bindr_pdf_url', $url, $book_id, $pdf_id );
 }
 
 /**

@@ -78,6 +78,14 @@
 	border-radius: 0;
 }
 
+// Real and fake fullscreen: the stage fills the screen instead of keeping
+// the embed's ratio-derived height (which left a dead strip at the bottom).
+.bindr-viewer--fs .bindr-stage,
+.bindr-viewer--fs-fake .bindr-stage {
+	flex: 1 1 auto;
+	min-height: 0;
+}
+
 // ---------------------------------------------------------------------------
 // Placeholder (pre-boot / no-JS)
 // ---------------------------------------------------------------------------
@@ -109,6 +117,7 @@
 	width: 100%;
 	overflow: hidden;
 	touch-action: pan-y;
+	padding: 24px; // Keep in sync with STAGE_PADDING in viewer.js.
 }
 
 .bindr-stage--zoomed {
@@ -196,6 +205,15 @@
 
 .bindr-book {
 	margin: 0 auto;
+	// Slides along with the page flip when the lone cover/back cover is
+	// re-centered (see FlipEngine.updateOffset).
+	transition: transform 0.7s ease;
+}
+
+@media ( prefers-reduced-motion: reduce ) {
+	.bindr-book {
+		transition: none;
+	}
 }
 
 // Slide engine.

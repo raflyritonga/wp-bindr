@@ -69,27 +69,27 @@ class Bindr_Analytics {
 		dbDelta(
 			"CREATE TABLE {$events} (
 				id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-				flipbook_id bigint(20) unsigned NOT NULL,
+				book_id bigint(20) unsigned NOT NULL,
 				event varchar(20) NOT NULL,
 				page smallint(5) unsigned NOT NULL DEFAULT 0,
 				session_hash char(32) NOT NULL,
 				created_at datetime NOT NULL,
 				PRIMARY KEY  (id),
-				KEY flipbook_created (flipbook_id, created_at),
+				KEY book_created (book_id, created_at),
 				KEY created_at (created_at)
 			) {$charset};"
 		);
 
 		dbDelta(
 			"CREATE TABLE {$daily} (
-				flipbook_id bigint(20) unsigned NOT NULL,
+				book_id bigint(20) unsigned NOT NULL,
 				day date NOT NULL,
 				opens int(10) unsigned NOT NULL DEFAULT 0,
 				uniques int(10) unsigned NOT NULL DEFAULT 0,
 				completes int(10) unsigned NOT NULL DEFAULT 0,
 				downloads int(10) unsigned NOT NULL DEFAULT 0,
 				avg_max_page decimal(6,2) NOT NULL DEFAULT 0,
-				PRIMARY KEY  (flipbook_id, day),
+				PRIMARY KEY  (book_id, day),
 				KEY day (day)
 			) {$charset};"
 		);
@@ -99,10 +99,22 @@ class Bindr_Analytics {
 	 * Run dbDelta again if the schema version changed on plugin update.
 	 */
 	public function maybe_upgrade_db() {
-		if ( (string) get_option( 'bindr_db_version' ) !== BINDR_DB_VERSION ) {
-			self::create_tables();
-			update_option( 'bindr_db_version', BINDR_DB_VERSION );
+		$installed = (string) get_option( 'bindr_db_version' );
+		if ( $installed === BINDR_DB_VERSION ) {
+			return;
 		}
+
+		// Schema v1 (pre-release) used a flipbook_id column, which dbDelta
+		// cannot rename (nor change the daily table's primary key). No public
+		// release ever shipped v1, so drop and recreate instead of migrating.
+		if ( '1' === $installed ) {
+			global $wpdb;
+			$wpdb->query( 'DROP TABLE IF EXISTS ' . self::events_table() ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+			$wpdb->query( 'DROP TABLE IF EXISTS ' . self::daily_table() ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+		}
+
+		self::create_tables();
+		update_option( 'bindr_db_version', BINDR_DB_VERSION );
 	}
 
 	/**
@@ -172,33 +184,33 @@ class Bindr_Analytics {
 		$now      = current_time( 'mysql', true );
 		$accepted = 0;
 
-		// Validate flipbook IDs once per batch; only published books count.
+		// Validate book IDs once per batch; only published books count.
 		$valid_books = array();
 
 		foreach ( $events as $event ) {
 			if ( ! is_array( $event ) ) {
 				continue;
 			}
-			$flipbook_id = isset( $event['flipbook'] ) ? absint( $event['flipbook'] ) : 0;
+			$book_id = isset( $event['book'] ) ? absint( $event['book'] ) : 0;
 			$type        = isset( $event['event'] ) ? sanitize_key( $event['event'] ) : '';
 			$page        = isset( $event['page'] ) ? absint( $event['page'] ) : 0;
 
-			if ( ! $flipbook_id || ! in_array( $type, self::EVENTS, true ) ) {
+			if ( ! $book_id || ! in_array( $type, self::EVENTS, true ) ) {
 				continue;
 			}
 
-			if ( ! isset( $valid_books[ $flipbook_id ] ) ) {
+			if ( ! isset( $valid_books[ $book_id ] ) ) {
 				// Must not leak private/draft books: publish status only.
-				$valid_books[ $flipbook_id ] = (
-					Bindr_CPT::POST_TYPE === get_post_type( $flipbook_id )
-					&& 'publish' === get_post_status( $flipbook_id )
+				$valid_books[ $book_id ] = (
+					Bindr_CPT::POST_TYPE === get_post_type( $book_id )
+					&& 'publish' === get_post_status( $book_id )
 				);
 			}
-			if ( ! $valid_books[ $flipbook_id ] ) {
+			if ( ! $valid_books[ $book_id ] ) {
 				continue;
 			}
 
-			$max_page = (int) get_post_meta( $flipbook_id, '_bindr_page_count', true );
+			$max_page = (int) get_post_meta( $book_id, '_bindr_page_count', true );
 			if ( $max_page && $page > $max_page ) {
 				$page = $max_page;
 			}
@@ -207,15 +219,15 @@ class Bindr_Analytics {
 			 * Fires before an analytics event is stored.
 			 *
 			 * @param string $type        Event type.
-			 * @param int    $flipbook_id Flipbook post ID.
+			 * @param int    $book_id Book post ID.
 			 * @param int    $page        Page number.
 			 */
-			do_action( 'bindr_event_received', $type, $flipbook_id, $page );
+			do_action( 'bindr_event_received', $type, $book_id, $page );
 
 			$wpdb->insert( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom analytics table.
 				$table,
 				array(
-					'flipbook_id'  => $flipbook_id,
+					'book_id'  => $book_id,
 					'event'        => $type,
 					'page'         => $page,
 					'session_hash' => $session,
@@ -288,14 +300,14 @@ class Bindr_Analytics {
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Custom tables; names from $wpdb->prefix.
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT flipbook_id,
+				"SELECT book_id,
 					SUM(event = 'open') AS opens,
 					COUNT(DISTINCT session_hash) AS uniques,
 					SUM(event = 'complete') AS completes,
 					SUM(event = 'download') AS downloads
 				FROM {$events}
 				WHERE created_at BETWEEN %s AND %s
-				GROUP BY flipbook_id",
+				GROUP BY book_id",
 				$start,
 				$end
 			)
@@ -306,10 +318,10 @@ class Bindr_Analytics {
 				$wpdb->prepare(
 					"SELECT AVG(max_page) FROM (
 						SELECT MAX(page) AS max_page FROM {$events}
-						WHERE flipbook_id = %d AND created_at BETWEEN %s AND %s AND event = 'page_turn'
+						WHERE book_id = %d AND created_at BETWEEN %s AND %s AND event = 'page_turn'
 						GROUP BY session_hash
 					) t",
-					$row->flipbook_id,
+					$row->book_id,
 					$start,
 					$end
 				)
@@ -317,9 +329,9 @@ class Bindr_Analytics {
 
 			$wpdb->query(
 				$wpdb->prepare(
-					"REPLACE INTO {$daily} (flipbook_id, day, opens, uniques, completes, downloads, avg_max_page)
+					"REPLACE INTO {$daily} (book_id, day, opens, uniques, completes, downloads, avg_max_page)
 					VALUES (%d, %s, %d, %d, %d, %d, %f)",
-					$row->flipbook_id,
+					$row->book_id,
 					$day,
 					(int) $row->opens,
 					(int) $row->uniques,
@@ -359,17 +371,17 @@ class Bindr_Analytics {
 	 *
 	 * @param string $from        Y-m-d inclusive.
 	 * @param string $to          Y-m-d inclusive.
-	 * @param int    $flipbook_id Optional single book filter.
+	 * @param int    $book_id Optional single book filter.
 	 * @return array[] Rows: day, opens, uniques, completes, downloads.
 	 */
-	public function get_timeseries( $from, $to, $flipbook_id = 0 ) {
+	public function get_timeseries( $from, $to, $book_id = 0 ) {
 		global $wpdb;
 		$daily  = self::daily_table();
 		$events = self::events_table();
 		$today  = gmdate( 'Y-m-d' );
 
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$book_sql = $flipbook_id ? $wpdb->prepare( ' AND flipbook_id = %d', $flipbook_id ) : '';
+		$book_sql = $book_id ? $wpdb->prepare( ' AND book_id = %d', $book_id ) : '';
 
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
@@ -417,7 +429,7 @@ class Bindr_Analytics {
 	 *
 	 * @param string $from Y-m-d inclusive.
 	 * @param string $to   Y-m-d inclusive.
-	 * @return array[] Rows keyed by flipbook_id.
+	 * @return array[] Rows keyed by book_id.
 	 */
 	public function get_book_totals( $from, $to ) {
 		global $wpdb;
@@ -428,8 +440,8 @@ class Bindr_Analytics {
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT flipbook_id, SUM(opens) AS opens, SUM(uniques) AS uniques, SUM(completes) AS completes, SUM(downloads) AS downloads, AVG(avg_max_page) AS avg_max_page
-				FROM {$daily} WHERE day BETWEEN %s AND %s GROUP BY flipbook_id",
+				"SELECT book_id, SUM(opens) AS opens, SUM(uniques) AS uniques, SUM(completes) AS completes, SUM(downloads) AS downloads, AVG(avg_max_page) AS avg_max_page
+				FROM {$daily} WHERE day BETWEEN %s AND %s GROUP BY book_id",
 				$from,
 				$to
 			),
@@ -439,14 +451,14 @@ class Bindr_Analytics {
 		if ( $to >= $today && $from <= $today ) {
 			$live = $wpdb->get_results(
 				$wpdb->prepare(
-					"SELECT flipbook_id, SUM(event = 'open') AS opens, COUNT(DISTINCT session_hash) AS uniques,
+					"SELECT book_id, SUM(event = 'open') AS opens, COUNT(DISTINCT session_hash) AS uniques,
 						SUM(event = 'complete') AS completes, SUM(event = 'download') AS downloads
-					FROM {$events} WHERE created_at >= %s GROUP BY flipbook_id",
+					FROM {$events} WHERE created_at >= %s GROUP BY book_id",
 					$today . ' 00:00:00'
 				)
 			);
 			foreach ( $live as $row ) {
-				$id = (int) $row->flipbook_id;
+				$id = (int) $row->book_id;
 				if ( isset( $rows[ $id ] ) ) {
 					$rows[ $id ]->opens     += (int) $row->opens;
 					$rows[ $id ]->uniques   += (int) $row->uniques;
