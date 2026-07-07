@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Serves book permalinks with the plugin's own blank-canvas template.
+ * Serves flipbook permalinks with the plugin's own blank-canvas template.
  */
 class Bindr_Fullpage {
 
@@ -39,7 +39,7 @@ class Bindr_Fullpage {
 	}
 
 	/**
-	 * Whether the current main query is a book permalink.
+	 * Whether the current main query is a flipbook permalink.
 	 *
 	 * @return bool
 	 */
@@ -66,7 +66,7 @@ class Bindr_Fullpage {
 	}
 
 	/**
-	 * Basic SEO/OG meta for shared book URLs.
+	 * Basic SEO/OG meta for shared flipbook URLs.
 	 */
 	public function seo_meta() {
 		if ( ! $this->is_fullpage() ) {
@@ -88,7 +88,7 @@ class Bindr_Fullpage {
 	/**
 	 * Render the viewer for the template.
 	 *
-	 * @param int $post_id Book post ID.
+	 * @param int $post_id Flipbook post ID.
 	 * @return string
 	 */
 	public function render_viewer( $post_id ) {

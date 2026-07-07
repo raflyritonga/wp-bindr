@@ -1,6 +1,6 @@
 <?php
 /**
- * Book custom post type, meta, and edit screen.
+ * Flipbook custom post type, meta, and edit screen.
  *
  * @package Bindr
  */
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Bindr_CPT {
 
-	const POST_TYPE = 'bindr_book';
+	const POST_TYPE = 'bindr_flipbook';
 
 	/**
 	 * Hook registration.
@@ -31,29 +31,29 @@ class Bindr_CPT {
 	}
 
 	/**
-	 * Register the book post type.
+	 * Register the flipbook post type.
 	 */
 	public function register_post_type() {
 		register_post_type(
 			self::POST_TYPE,
 			array(
 				'labels'       => array(
-					'name'               => __( 'Books', 'wp-bindr' ),
-					'singular_name'      => __( 'Book', 'wp-bindr' ),
+					'name'               => __( 'Flipbooks', 'wp-bindr' ),
+					'singular_name'      => __( 'Flipbook', 'wp-bindr' ),
 					'add_new'            => __( 'Add New', 'wp-bindr' ),
-					'add_new_item'       => __( 'Add New Book', 'wp-bindr' ),
-					'edit_item'          => __( 'Edit Book', 'wp-bindr' ),
-					'new_item'           => __( 'New Book', 'wp-bindr' ),
-					'view_item'          => __( 'View Book', 'wp-bindr' ),
-					'search_items'       => __( 'Search Books', 'wp-bindr' ),
-					'not_found'          => __( 'No books found.', 'wp-bindr' ),
-					'not_found_in_trash' => __( 'No books found in Trash.', 'wp-bindr' ),
-					'all_items'          => __( 'All Books', 'wp-bindr' ),
+					'add_new_item'       => __( 'Add New Flipbook', 'wp-bindr' ),
+					'edit_item'          => __( 'Edit Flipbook', 'wp-bindr' ),
+					'new_item'           => __( 'New Flipbook', 'wp-bindr' ),
+					'view_item'          => __( 'View Flipbook', 'wp-bindr' ),
+					'search_items'       => __( 'Search Flipbooks', 'wp-bindr' ),
+					'not_found'          => __( 'No flipbooks found.', 'wp-bindr' ),
+					'not_found_in_trash' => __( 'No flipbooks found in Trash.', 'wp-bindr' ),
+					'all_items'          => __( 'All Flipbooks', 'wp-bindr' ),
 					'menu_name'          => __( 'Bindr', 'wp-bindr' ),
 				),
 				'public'       => true,
 				'has_archive'  => false,
-				'show_in_rest' => true, // Needed for the block's book picker (getEntityRecords).
+				'show_in_rest' => true, // Needed for the block's flipbook picker (getEntityRecords).
 				'menu_icon'    => 'dashicons-book',
 				'supports'     => array( 'title', 'thumbnail' ),
 				'rewrite'      => array(
@@ -76,7 +76,7 @@ class Bindr_CPT {
 				'single'        => true,
 				'default'       => 0,
 				'show_in_rest'  => true,
-				'auth_callback' => array( $this, 'can_edit_books' ),
+				'auth_callback' => array( $this, 'can_edit_flipbooks' ),
 			)
 		);
 		register_post_meta(
@@ -87,7 +87,7 @@ class Bindr_CPT {
 				'single'        => true,
 				'default'       => 0,
 				'show_in_rest'  => true,
-				'auth_callback' => array( $this, 'can_edit_books' ),
+				'auth_callback' => array( $this, 'can_edit_flipbooks' ),
 			)
 		);
 	}
@@ -97,12 +97,12 @@ class Bindr_CPT {
 	 *
 	 * @return bool
 	 */
-	public function can_edit_books() {
+	public function can_edit_flipbooks() {
 		return current_user_can( 'edit_posts' );
 	}
 
 	/**
-	 * Use the classic edit screen for books — the metabox flow is simpler
+	 * Use the classic edit screen for flipbooks — the metabox flow is simpler
 	 * for the target audience than a block canvas with no content area.
 	 *
 	 * @param bool   $use_block_editor Whether to use the block editor.
@@ -138,7 +138,7 @@ class Bindr_CPT {
 		);
 		add_meta_box(
 			'bindr-usage',
-			__( 'Use This Book', 'wp-bindr' ),
+			__( 'Use This Flipbook', 'wp-bindr' ),
 			array( $this, 'render_usage_metabox' ),
 			self::POST_TYPE,
 			'side',
@@ -152,7 +152,7 @@ class Bindr_CPT {
 	 * @param WP_Post $post Current post.
 	 */
 	public function render_pdf_metabox( $post ) {
-		wp_nonce_field( 'bindr_save_book', 'bindr_nonce' );
+		wp_nonce_field( 'bindr_save_flipbook', 'bindr_nonce' );
 
 		$pdf_id     = (int) get_post_meta( $post->ID, '_bindr_pdf_id', true );
 		$page_count = (int) get_post_meta( $post->ID, '_bindr_page_count', true );
@@ -195,7 +195,7 @@ class Bindr_CPT {
 	}
 
 	/**
-	 * Per-book viewer options metabox.
+	 * Per-flipbook viewer options metabox.
 	 *
 	 * @param WP_Post $post Current post.
 	 */
@@ -253,13 +253,13 @@ class Bindr_CPT {
 	}
 
 	/**
-	 * "Use this book" metabox: shortcode, block hint, permalink.
+	 * "Use this flipbook" metabox: shortcode, block hint, permalink.
 	 *
 	 * @param WP_Post $post Current post.
 	 */
 	public function render_usage_metabox( $post ) {
 		if ( 'auto-draft' === $post->post_status ) {
-			echo '<p>' . esc_html__( 'Save the book first to get its shortcode and link.', 'wp-bindr' ) . '</p>';
+			echo '<p>' . esc_html__( 'Save the flipbook first to get its shortcode and link.', 'wp-bindr' ) . '</p>';
 			return;
 		}
 		$shortcode = sprintf( '[bindr id="%d"]', $post->ID );
@@ -271,7 +271,7 @@ class Bindr_CPT {
 		<p class="description"><?php esc_html_e( 'Paste this into any post, page, or page builder text widget.', 'wp-bindr' ); ?></p>
 
 		<p><strong><?php esc_html_e( 'Block editor', 'wp-bindr' ); ?></strong></p>
-		<p class="description"><?php esc_html_e( 'Add the “Bindr Book” block and pick this book from the list.', 'wp-bindr' ); ?></p>
+		<p class="description"><?php esc_html_e( 'Add the “Bindr Flipbook” block and pick this flipbook from the list.', 'wp-bindr' ); ?></p>
 
 		<?php if ( 'publish' === $post->post_status ) : ?>
 			<p><strong><?php esc_html_e( 'Full-page reading mode', 'wp-bindr' ); ?></strong></p>
@@ -285,13 +285,13 @@ class Bindr_CPT {
 	}
 
 	/**
-	 * Save book meta.
+	 * Save flipbook meta.
 	 *
 	 * @param int     $post_id Post ID.
 	 * @param WP_Post $post    Post object.
 	 */
 	public function save_meta( $post_id, $post ) {
-		if ( ! isset( $_POST['bindr_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['bindr_nonce'] ), 'bindr_save_book' ) ) {
+		if ( ! isset( $_POST['bindr_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['bindr_nonce'] ), 'bindr_save_flipbook' ) ) {
 			return;
 		}
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -328,10 +328,10 @@ class Bindr_CPT {
 		);
 
 		/**
-		 * Filter per-book options before saving.
+		 * Filter per-flipbook options before saving.
 		 *
 		 * @param array $options Sanitized options.
-		 * @param int   $post_id Book post ID.
+		 * @param int   $post_id Flipbook post ID.
 		 */
 		$options = apply_filters( 'bindr_save_options', $options, $post_id );
 		update_post_meta( $post_id, '_bindr_options', $options );
@@ -341,20 +341,20 @@ class Bindr_CPT {
 		}
 
 		/**
-		 * Fires after a book is saved with valid data.
+		 * Fires after a flipbook is saved with valid data.
 		 *
-		 * @param int     $post_id Book post ID.
+		 * @param int     $post_id Flipbook post ID.
 		 * @param int     $pdf_id  PDF attachment ID.
 		 * @param WP_Post $post    Post object.
 		 */
-		do_action( 'bindr_book_saved', $post_id, $pdf_id, $post );
+		do_action( 'bindr_flipbook_saved', $post_id, $pdf_id, $post );
 	}
 
 	/**
 	 * Server-side cover generation from page 1, only if Imagick can read PDFs.
 	 * Skips silently otherwise — the viewer renders covers client-side.
 	 *
-	 * @param int $post_id Book post ID.
+	 * @param int $post_id Flipbook post ID.
 	 * @param int $pdf_id  PDF attachment ID.
 	 */
 	private function maybe_generate_cover( $post_id, $pdf_id ) {
@@ -366,14 +366,14 @@ class Bindr_CPT {
 		}
 
 		// The preview belongs to the PDF attachment itself; expose it as the
-		// book cover by storing the attachment as featured image.
+		// flipbook cover by storing the attachment as featured image.
 		set_post_thumbnail( $post_id, $pdf_id );
 	}
 
 	/**
-	 * Get merged per-book options (book meta over global defaults).
+	 * Get merged per-flipbook options (flipbook meta over global defaults).
 	 *
-	 * @param int $post_id Book post ID.
+	 * @param int $post_id Flipbook post ID.
 	 * @return array
 	 */
 	public static function get_options( $post_id ) {
@@ -390,16 +390,16 @@ class Bindr_CPT {
 		}
 
 		/**
-		 * Filter resolved per-book viewer options.
+		 * Filter resolved per-flipbook viewer options.
 		 *
 		 * @param array $options Options.
-		 * @param int   $post_id Book post ID.
+		 * @param int   $post_id Flipbook post ID.
 		 */
-		return apply_filters( 'bindr_book_options', $options, $post_id );
+		return apply_filters( 'bindr_flipbook_options', $options, $post_id );
 	}
 
 	/**
-	 * Admin assets for the book edit screen only.
+	 * Admin assets for the flipbook edit screen only.
 	 *
 	 * @param string $hook_suffix Current admin page.
 	 */

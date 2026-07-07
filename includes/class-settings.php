@@ -177,7 +177,7 @@ class Bindr_Settings {
 		?>
 		<label>
 			<input type="checkbox" name="<?php echo esc_attr( self::OPTION ); ?>[default_allow_download]" value="1" <?php checked( (int) bindr_get_setting( 'default_allow_download' ), 1 ); ?> />
-			<?php esc_html_e( 'Allow PDF download by default (can be changed per book)', 'wp-bindr' ); ?>
+			<?php esc_html_e( 'Allow PDF download by default (can be changed per flipbook)', 'wp-bindr' ); ?>
 		</label>
 		<?php
 	}
@@ -188,7 +188,7 @@ class Bindr_Settings {
 	public function field_fallback_url() {
 		?>
 		<input type="url" class="regular-text" name="<?php echo esc_attr( self::OPTION ); ?>[fallback_url]" value="<?php echo esc_attr( bindr_get_setting( 'fallback_url' ) ); ?>" placeholder="<?php echo esc_attr( home_url( '/' ) ); ?>" />
-		<p class="description"><?php esc_html_e( 'Where the back button goes when a reader opens a book directly (for example from a shared link). Defaults to the homepage.', 'wp-bindr' ); ?></p>
+		<p class="description"><?php esc_html_e( 'Where the back button goes when a reader opens a flipbook directly (for example from a shared link). Defaults to the homepage.', 'wp-bindr' ); ?></p>
 		<?php
 	}
 
@@ -228,7 +228,7 @@ class Bindr_Settings {
 		?>
 		<label>
 			<input type="checkbox" name="<?php echo esc_attr( self::OPTION ); ?>[delete_on_uninstall]" value="1" <?php checked( (int) bindr_get_setting( 'delete_on_uninstall' ), 1 ); ?> />
-			<?php esc_html_e( 'Delete all books, settings, and analytics data when the plugin is uninstalled', 'wp-bindr' ); ?>
+			<?php esc_html_e( 'Delete all flipbooks, settings, and analytics data when the plugin is uninstalled', 'wp-bindr' ); ?>
 		</label>
 		<?php
 	}

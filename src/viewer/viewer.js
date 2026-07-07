@@ -1,5 +1,5 @@
 /**
- * The book viewer: toolbar, stage, engine selection, keyboard access,
+ * The flipbook viewer: toolbar, stage, engine selection, keyboard access,
  * fullscreen, zoom, and analytics wiring.
  */
 import { PdfStore } from './store';

@@ -1,7 +1,7 @@
 # Contributing to Bindr
 
 Thanks for your interest in contributing! Bindr turns Media Library PDFs into
-interactive books — self-hosted, privacy-friendly, no external services.
+interactive flipbooks — self-hosted, privacy-friendly, no external services.
 
 ## Development setup
 
@@ -44,8 +44,8 @@ Rebuild and commit them together with the source change that produced them.
   (`composer lint:fix` auto-fixes what it can).
 - **JS** uses the WordPress ESLint preset — run `npm run lint:js`.
 - All user-facing strings are translatable in the `wp-bindr` text domain.
-  The UI says “book”; the word “flipbook” is reserved for functional
-  identifiers that must stay stable.
+  Terminology: **Bindr** is the product name; a **flipbook** is what it
+  produces. The shortcode is `[bindr]`.
 - Everything the viewer outputs is escaped; database access goes through
   `$wpdb->prepare()`.
 
@@ -54,10 +54,10 @@ Rebuild and commit them together with the source change that produced them.
 These are public API — renaming them breaks existing sites, so they must not
 change casually:
 
-- Post type: `bindr_book` (URL slug `/bindr/…`)
+- Post type: `bindr_flipbook` (URL slug `/bindr/…`)
 - Shortcode: `[bindr id="123"]`
-- Block: `bindr/book`
-- Hooks: `bindr_*` (e.g. `bindr_pdf_url`, `bindr_viewer_config`, `bindr_book_saved`)
+- Block: `bindr/flipbook`
+- Hooks: `bindr_*` (e.g. `bindr_pdf_url`, `bindr_viewer_config`, `bindr_flipbook_saved`)
 - Tables: `{$prefix}bindr_events`, `{$prefix}bindr_daily`
 - Settings option: `bindr_settings`; post meta prefixed `_bindr_`
 

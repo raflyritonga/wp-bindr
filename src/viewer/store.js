@@ -1,7 +1,7 @@
 /**
  * PDF document store: loads via PDF.js and renders pages into canvases with
  * a strict memory budget — at most MAX_LIVE_CANVASES rendered canvases exist
- * at any moment, regardless of book length.
+ * at any moment, regardless of flipbook length.
  */
 
 const MAX_LIVE_CANVASES = 6;

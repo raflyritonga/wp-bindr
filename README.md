@@ -10,8 +10,8 @@ statistics stay on your server.
 
 ## Features
 
-- **Create** books from any Media Library PDF — no conversion, no re-upload.
-- **Embed** with the `Bindr Book` Gutenberg block or the `[bindr id="123"]`
+- **Create** flipbooks from any Media Library PDF — no conversion, no re-upload.
+- **Embed** with the `Bindr Flipbook` Gutenberg block or the `[bindr id="123"]`
   shortcode (block and shortcode share one server render path).
 - **Full-page reading mode** at a clean shareable URL, served by the plugin's
   own blank-canvas template with a smart back button and social meta.
@@ -24,7 +24,7 @@ statistics stay on your server.
 - **Responsive & accessible**: book spreads on desktop, single-page swipe on
   phones, full keyboard navigation, screen-reader labels, honors
   `prefers-reduced-motion`.
-- **Light on shared hosting**: zero assets on pages without books, at
+- **Light on shared hosting**: zero assets on pages without flipbooks, at
   most 6 rendered canvases in memory regardless of book length.
 - Ships with a complete Bahasa Indonesia translation.
 

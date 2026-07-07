@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin analytics dashboard + CSV export + per-book stats box.
+ * Admin analytics dashboard + CSV export + per-flipbook stats box.
  *
  * @package Bindr
  */
@@ -81,7 +81,7 @@ class Bindr_Dashboard {
 
 		$range  = $this->get_range();
 		$series = $this->analytics->get_timeseries( $range['from'], $range['to'] );
-		$books  = $this->analytics->get_book_totals( $range['from'], $range['to'] );
+		$flipbooks  = $this->analytics->get_book_totals( $range['from'], $range['to'] );
 
 		$totals = array(
 			'opens'     => 0,
@@ -98,7 +98,7 @@ class Bindr_Dashboard {
 		$completion = $totals['opens'] > 0 ? round( 100 * $totals['completes'] / $totals['opens'] ) : 0;
 
 		uasort(
-			$books,
+			$flipbooks,
 			static function ( $a, $b ) {
 				return $b['opens'] <=> $a['opens'];
 			}
@@ -159,11 +159,11 @@ class Bindr_Dashboard {
 				<div id="bindr-chart" data-series="<?php echo esc_attr( wp_json_encode( $series ) ); ?>" data-from="<?php echo esc_attr( $range['from'] ); ?>" data-to="<?php echo esc_attr( $range['to'] ); ?>"></div>
 			</div>
 
-			<h2><?php esc_html_e( 'Per book', 'wp-bindr' ); ?></h2>
+			<h2><?php esc_html_e( 'Per flipbook', 'wp-bindr' ); ?></h2>
 			<table class="widefat striped bindr-books-table">
 				<thead>
 					<tr>
-						<th><?php esc_html_e( 'Book', 'wp-bindr' ); ?></th>
+						<th><?php esc_html_e( 'Flipbook', 'wp-bindr' ); ?></th>
 						<th><?php esc_html_e( 'Reads', 'wp-bindr' ); ?></th>
 						<th><?php esc_html_e( 'Unique readers (daily)', 'wp-bindr' ); ?></th>
 						<th><?php esc_html_e( 'Completions', 'wp-bindr' ); ?></th>
@@ -172,10 +172,10 @@ class Bindr_Dashboard {
 					</tr>
 				</thead>
 				<tbody>
-					<?php if ( empty( $books ) ) : ?>
+					<?php if ( empty( $flipbooks ) ) : ?>
 						<tr><td colspan="6"><?php esc_html_e( 'No reading activity in this period yet.', 'wp-bindr' ); ?></td></tr>
 					<?php else : ?>
-						<?php foreach ( $books as $id => $row ) : ?>
+						<?php foreach ( $flipbooks as $id => $row ) : ?>
 							<tr>
 								<td>
 									<a href="<?php echo esc_url( (string) get_edit_post_link( $id ) ); ?>">
@@ -207,7 +207,7 @@ class Bindr_Dashboard {
 
 		$range  = $this->get_range();
 		$series = $this->analytics->get_timeseries( $range['from'], $range['to'] );
-		$books  = $this->analytics->get_book_totals( $range['from'], $range['to'] );
+		$flipbooks  = $this->analytics->get_book_totals( $range['from'], $range['to'] );
 
 		nocache_headers();
 		header( 'Content-Type: text/csv; charset=utf-8' );
@@ -222,8 +222,8 @@ class Bindr_Dashboard {
 		}
 
 		fputcsv( $out, array() );
-		fputcsv( $out, array( __( 'Book', 'wp-bindr' ), __( 'Reads', 'wp-bindr' ), __( 'Unique readers', 'wp-bindr' ), __( 'Completions', 'wp-bindr' ), __( 'Downloads', 'wp-bindr' ), __( 'Avg. furthest page', 'wp-bindr' ) ) );
-		foreach ( $books as $id => $row ) {
+		fputcsv( $out, array( __( 'Flipbook', 'wp-bindr' ), __( 'Reads', 'wp-bindr' ), __( 'Unique readers', 'wp-bindr' ), __( 'Completions', 'wp-bindr' ), __( 'Downloads', 'wp-bindr' ), __( 'Avg. furthest page', 'wp-bindr' ) ) );
+		foreach ( $flipbooks as $id => $row ) {
 			fputcsv( $out, array( get_the_title( $id ) ? get_the_title( $id ) : "#{$id}", $row['opens'], $row['uniques'], $row['completes'], $row['downloads'], $row['avg_max_page'] ) );
 		}
 
@@ -232,7 +232,7 @@ class Bindr_Dashboard {
 	}
 
 	/**
-	 * Read-only stats box on the book edit screen (editors can see it).
+	 * Read-only stats box on the flipbook edit screen (editors can see it).
 	 */
 	public function add_stats_box() {
 		add_meta_box(
@@ -246,13 +246,13 @@ class Bindr_Dashboard {
 	}
 
 	/**
-	 * Render the per-book stats box.
+	 * Render the per-flipbook stats box.
 	 *
 	 * @param WP_Post $post Current post.
 	 */
 	public function render_stats_box( $post ) {
 		if ( 'publish' !== $post->post_status ) {
-			echo '<p>' . esc_html__( 'Statistics appear once the book is published.', 'wp-bindr' ) . '</p>';
+			echo '<p>' . esc_html__( 'Statistics appear once the flipbook is published.', 'wp-bindr' ) . '</p>';
 			return;
 		}
 
@@ -304,7 +304,7 @@ class Bindr_Dashboard {
 	 * @param string $hook_suffix Current admin page.
 	 */
 	public function enqueue_assets( $hook_suffix ) {
-		if ( 'bindr_book_page_bindr-analytics' !== $hook_suffix ) {
+		if ( 'bindr_flipbook_page_bindr-analytics' !== $hook_suffix ) {
 			return;
 		}
 		$asset = include BINDR_PLUGIN_DIR . 'build/admin-dashboard/index.asset.php';

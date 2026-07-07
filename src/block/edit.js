@@ -1,5 +1,5 @@
 /**
- * Block editor UI: searchable book picker + display options, with a
+ * Block editor UI: searchable flipbook picker + display options, with a
  * static cover-and-frame placeholder in the canvas. The full viewer never
  * runs inside the editor.
  */
@@ -17,24 +17,24 @@ import { useSelect } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/core-data';
 
 export default function Edit( { attributes, setAttributes } ) {
-	const { bookId, heightMode, height, display } = attributes;
+	const { flipbookId, heightMode, height, display } = attributes;
 
-	const { books, selected, cover } = useSelect(
+	const { flipbooks, selected, cover } = useSelect(
 		( select ) => {
 			const { getEntityRecords, getEntityRecord, getMedia } =
 				select( coreStore );
 			const records =
-				getEntityRecords( 'postType', 'bindr_book', {
+				getEntityRecords( 'postType', 'bindr_flipbook', {
 					per_page: 100,
 					status: 'publish',
 					orderby: 'title',
 					order: 'asc',
 				} ) || [];
-			const current = bookId
-				? getEntityRecord( 'postType', 'bindr_book', bookId )
+			const current = flipbookId
+				? getEntityRecord( 'postType', 'bindr_flipbook', flipbookId )
 				: null;
 			return {
-				books: records,
+				flipbooks: records,
 				selected: current,
 				cover:
 					current && current.featured_media
@@ -42,12 +42,12 @@ export default function Edit( { attributes, setAttributes } ) {
 						: null,
 			};
 		},
-		[ bookId ]
+		[ flipbookId ]
 	);
 
-	const options = books.map( ( book ) => ( {
-		value: String( book.id ),
-		label: book.title.rendered || `#${ book.id }`,
+	const options = flipbooks.map( ( flipbook ) => ( {
+		value: String( flipbook.id ),
+		label: flipbook.title.rendered || `#${ flipbook.id }`,
 	} ) );
 
 	const coverUrl =
@@ -63,14 +63,14 @@ export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<div { ...blockProps }>
 			<InspectorControls>
-				<PanelBody title={ __( 'Book', 'wp-bindr' ) }>
+				<PanelBody title={ __( 'Flipbook', 'wp-bindr' ) }>
 					<ComboboxControl
-						label={ __( 'Choose a book', 'wp-bindr' ) }
-						value={ bookId ? String( bookId ) : '' }
+						label={ __( 'Choose a flipbook', 'wp-bindr' ) }
+						value={ flipbookId ? String( flipbookId ) : '' }
 						options={ options }
 						onChange={ ( value ) =>
 							setAttributes( {
-								bookId: value ? parseInt( value, 10 ) : 0,
+								flipbookId: value ? parseInt( value, 10 ) : 0,
 							} )
 						}
 					/>
@@ -110,7 +110,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						value={ display }
 						options={ [
 							{
-								label: __( 'Book setting', 'wp-bindr' ),
+								label: __( 'Flipbook setting', 'wp-bindr' ),
 								value: '',
 							},
 							{
@@ -129,29 +129,29 @@ export default function Edit( { attributes, setAttributes } ) {
 				</PanelBody>
 			</InspectorControls>
 
-			{ ! bookId && (
+			{ ! flipbookId && (
 				<Placeholder
 					icon="book"
-					label={ __( 'Bindr Book', 'wp-bindr' ) }
+					label={ __( 'Bindr Flipbook', 'wp-bindr' ) }
 					instructions={ __(
-						'Choose a book in the block settings sidebar. Create books under Bindr in the admin menu.',
+						'Choose a flipbook in the block settings sidebar. Create flipbooks under Bindr in the admin menu.',
 						'wp-bindr'
 					) }
 				>
 					<ComboboxControl
-						label={ __( 'Choose a book', 'wp-bindr' ) }
+						label={ __( 'Choose a flipbook', 'wp-bindr' ) }
 						value=""
 						options={ options }
 						onChange={ ( value ) =>
 							setAttributes( {
-								bookId: value ? parseInt( value, 10 ) : 0,
+								flipbookId: value ? parseInt( value, 10 ) : 0,
 							} )
 						}
 					/>
 				</Placeholder>
 			) }
 
-			{ !! bookId && (
+			{ !! flipbookId && (
 				<div className="bindr-block-preview__frame">
 					{ coverUrl ? (
 						<img
@@ -172,7 +172,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					</span>
 					<span className="bindr-block-preview__hint">
 						{ __(
-							'Interactive book — preview it on the front end.',
+							'Interactive flipbook — preview it on the front end.',
 							'wp-bindr'
 						) }
 					</span>

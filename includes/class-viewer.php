@@ -24,7 +24,7 @@ class Bindr_Viewer {
 
 	/**
 	 * Register (not enqueue) front-end assets. They are enqueued only when a
-	 * book actually renders, so pages without books load zero bytes.
+	 * flipbook actually renders, so pages without flipbooks load zero bytes.
 	 */
 	public function register_assets() {
 		self::register_pdfjs();
@@ -93,18 +93,18 @@ class Bindr_Viewer {
 	}
 
 	/**
-	 * Render a book viewer container.
+	 * Render a flipbook viewer container.
 	 *
 	 * @param array $args {
 	 *     Render arguments.
 	 *
-	 *     @type int    $id          Book post ID (required).
+	 *     @type int    $id          Flipbook post ID (required).
 	 *     @type string $height_mode 'ratio' (responsive) or 'fixed'.
 	 *     @type int    $height      Fixed height in px (height_mode=fixed).
-	 *     @type string $display     '', 'single', or 'double' ('' = book setting).
+	 *     @type string $display     '', 'single', or 'double' ('' = flipbook setting).
 	 *     @type bool   $fullpage    Whether rendering inside full-page mode.
 	 * }
-	 * @return string HTML, empty string when the book is unavailable.
+	 * @return string HTML, empty string when the flipbook is unavailable.
 	 */
 	public function render( $args ) {
 		$args = wp_parse_args(
@@ -122,7 +122,7 @@ class Bindr_Viewer {
 		if ( ! $post || Bindr_CPT::POST_TYPE !== $post->post_type ) {
 			return '';
 		}
-		// Draft/private books render only for users who can see them.
+		// Draft/private flipbooks render only for users who can see them.
 		if ( 'publish' !== $post->post_status && ! current_user_can( 'read_post', $post->ID ) ) {
 			return '';
 		}
@@ -130,7 +130,7 @@ class Bindr_Viewer {
 		$pdf_url = bindr_get_pdf_url( $post->ID );
 		if ( ! $pdf_url ) {
 			return current_user_can( 'edit_post', $post->ID )
-				? '<p class="bindr-viewer-notice">' . esc_html__( 'This book has no PDF attached yet. Edit the book and select one.', 'wp-bindr' ) . '</p>'
+				? '<p class="bindr-viewer-notice">' . esc_html__( 'This flipbook has no PDF attached yet. Edit the flipbook and select one.', 'wp-bindr' ) . '</p>'
 				: '';
 		}
 
@@ -171,7 +171,7 @@ class Bindr_Viewer {
 		 * Filter the viewer config JSON before output.
 		 *
 		 * @param array   $config Viewer config.
-		 * @param WP_Post $post   Book post.
+		 * @param WP_Post $post   Flipbook post.
 		 * @param array   $args   Render args.
 		 */
 		$config = apply_filters( 'bindr_viewer_config', $config, $post, $args );
@@ -201,7 +201,7 @@ class Bindr_Viewer {
 				<noscript>
 					<a href="<?php echo esc_url( $pdf_url ); ?>">
 						<?php
-						/* translators: %s: book title. */
+						/* translators: %s: flipbook title. */
 						echo esc_html( sprintf( __( 'Read “%s” (PDF)', 'wp-bindr' ), get_the_title( $post ) ) );
 						?>
 					</a>
@@ -215,7 +215,7 @@ class Bindr_Viewer {
 		 * Filter the rendered viewer HTML.
 		 *
 		 * @param string  $html Rendered markup.
-		 * @param WP_Post $post Book post.
+		 * @param WP_Post $post Flipbook post.
 		 * @param array   $args Render args.
 		 */
 		return apply_filters( 'bindr_viewer_html', $html, $post, $args );
@@ -246,7 +246,7 @@ class Bindr_Viewer {
 	 */
 	public static function strings() {
 		return array(
-			'loading'      => __( 'Loading book…', 'wp-bindr' ),
+			'loading'      => __( 'Loading flipbook…', 'wp-bindr' ),
 			'prev'         => __( 'Previous page', 'wp-bindr' ),
 			'next'         => __( 'Next page', 'wp-bindr' ),
 			/* translators: %1$s: current page number, %2$s: total pages. */
@@ -257,7 +257,7 @@ class Bindr_Viewer {
 			'fullscreen'   => __( 'Toggle fullscreen', 'wp-bindr' ),
 			'singleDouble' => __( 'Toggle single or double page', 'wp-bindr' ),
 			'download'     => __( 'Download PDF', 'wp-bindr' ),
-			'loadError'    => __( 'The book could not be loaded.', 'wp-bindr' ),
+			'loadError'    => __( 'The flipbook could not be loaded.', 'wp-bindr' ),
 			'openPdf'      => __( 'Open the PDF instead', 'wp-bindr' ),
 		);
 	}

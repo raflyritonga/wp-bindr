@@ -1,11 +1,11 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "bindr/book",
-  "title": "Bindr Book",
+  "name": "bindr/flipbook",
+  "title": "Bindr Flipbook",
   "category": "media",
   "icon": "book",
-  "description": "Embed an interactive book created from a PDF.",
+  "description": "Embed an interactive flipbook created from a PDF.",
   "keywords": [
     "pdf",
     "book",
@@ -14,7 +14,7 @@
   ],
   "textdomain": "wp-bindr",
   "attributes": {
-    "bookId": {
+    "flipbookId": {
       "type": "number",
       "default": 0
     },
