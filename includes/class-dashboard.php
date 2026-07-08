@@ -79,9 +79,9 @@ class Bindr_Dashboard {
 			return;
 		}
 
-		$range  = $this->get_range();
-		$series = $this->analytics->get_timeseries( $range['from'], $range['to'] );
-		$flipbooks  = $this->analytics->get_book_totals( $range['from'], $range['to'] );
+		$range     = $this->get_range();
+		$series    = $this->analytics->get_timeseries( $range['from'], $range['to'] );
+		$flipbooks = $this->analytics->get_book_totals( $range['from'], $range['to'] );
 
 		$totals = array(
 			'opens'     => 0,
@@ -107,7 +107,7 @@ class Bindr_Dashboard {
 		$export_url = wp_nonce_url(
 			add_query_arg(
 				array(
-					'action'    => 'bindr_export_csv',
+					'action'      => 'bindr_export_csv',
 					'bindr_range' => $range['days'],
 				),
 				admin_url( 'admin-post.php' )
@@ -205,9 +205,9 @@ class Bindr_Dashboard {
 		}
 		check_admin_referer( 'bindr_export_csv' );
 
-		$range  = $this->get_range();
-		$series = $this->analytics->get_timeseries( $range['from'], $range['to'] );
-		$flipbooks  = $this->analytics->get_book_totals( $range['from'], $range['to'] );
+		$range     = $this->get_range();
+		$series    = $this->analytics->get_timeseries( $range['from'], $range['to'] );
+		$flipbooks = $this->analytics->get_book_totals( $range['from'], $range['to'] );
 
 		nocache_headers();
 		header( 'Content-Type: text/csv; charset=utf-8' );

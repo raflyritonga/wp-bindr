@@ -500,7 +500,10 @@ export class Viewer {
 			);
 			this.relayout();
 		};
-		document.addEventListener( 'fullscreenchange', this.onFullscreenChange );
+		document.addEventListener(
+			'fullscreenchange',
+			this.onFullscreenChange
+		);
 
 		// Hidden-then-shown containers (tabs, accordions) report width 0 at
 		// init time; re-measure when the viewer becomes visible.

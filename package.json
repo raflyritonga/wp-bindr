@@ -8,6 +8,7 @@
 		"build": "wp-scripts build && node tools/copy-vendor.js && node tools/make-pot.js && node tools/compile-lang.js",
 		"start": "wp-scripts start",
 		"lint:js": "wp-scripts lint-js src tools",
+		"test:unit": "wp-scripts test-unit-js",
 		"vendor": "node tools/copy-vendor.js",
 		"lang": "node tools/compile-lang.js",
 		"plugin-zip": "wp-scripts plugin-zip"
