@@ -10,7 +10,7 @@ Requirements: Node.js ≥ 18, Composer, PHP ≥ 7.4, and a local WordPress
 
 ```bash
 npm install          # JS toolchain (@wordpress/scripts)
-composer install     # PHPCS (WordPress Coding Standards)
+composer install     # PHPCS + PHPUnit + Brain Monkey
 npm run build        # compile block + viewer, copy vendor libs, build i18n
 ```
 
@@ -37,6 +37,18 @@ zip -r wp-bindr.zip wp-bindr.php uninstall.php readme.txt LICENSE LIBRARIES.md \
 
 Compiled assets in `build/` are committed so the repo is installable as-is.
 Rebuild and commit them together with the source change that produced them.
+
+## Tests
+
+```bash
+composer test        # PHP unit tests (PHPUnit + Brain Monkey, no WP install needed)
+npm run test:unit    # JS unit tests (Jest)
+```
+
+PHP tests live in `tests/unit/` and mock WordPress functions with Brain
+Monkey — they run on bare PHP ≥ 8.2. Plugin runtime code must still support
+PHP 7.4; CI checks that with a syntax pass on 7.4. New logic (sanitizers,
+REST handlers, option resolution) should come with a test.
 
 ## Coding standards
 
@@ -79,8 +91,8 @@ merged.
 ## Pull requests
 
 1. Fork, branch from `main`, keep the change focused.
-2. Run `composer lint` and `npm run lint:js`; rebuild `build/` if you touched
-   `src/`.
+2. Run `composer lint`, `composer test`, `npm run lint:js`, and
+   `npm run test:unit`; rebuild `build/` if you touched `src/`.
 3. Test the three render paths when relevant: block, shortcode, and the
    full-page reading mode — plus mobile width (single-page engine) and
    keyboard navigation.
