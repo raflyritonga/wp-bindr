@@ -7,3 +7,6 @@ vendor/
 docs/
 TESTING.md
 .phpactor.json
+# Tool caches.
+.phpunit.result.cache
+.phpunit.cache/
